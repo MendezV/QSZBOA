@@ -1,0 +1,1694 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     72405,       1685]
+NotebookOptionsPosition[     68120,       1552]
+NotebookOutlinePosition[     69728,       1603]
+CellTagsIndexPosition[     69400,       1591]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["\<\
+Time Evolution of the Wavefunction in a 1D Infinite Square Well\
+\>", "DemoTitle",
+ CellChangeTimes->{{3.515352539552534*^9, 3.515352548596525*^9}, {
+   3.5154299349324365`*^9, 3.515429949758919*^9}, 3.515446523876815*^9, {
+   3.5155114424839277`*^9, 3.515511455095193*^9}, {3.515511485711039*^9, 
+   3.515511486197833*^9}, {3.515533457705929*^9, 3.5155334721747513`*^9}, 
+   3.515761568311878*^9, {3.5157693625145617`*^9, 3.515769382573864*^9}}],
+
+Cell["", "InitializationSection"],
+
+Cell[CellGroupData[{
+
+Cell["", "ManipulateSection"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Manipulate", "[", "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "n", ",", "c", ",", "p", ",", "norm", ",", "f", ",", "ProbDensity", ",",
+        "EnergyExpectationValue"}], "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"n", "=", "3"}], ";", "\[IndentingNewLine]", 
+      RowBox[{"c", "=", 
+       RowBox[{"{", 
+        RowBox[{"a1", ",", "a2", ",", "a3"}], "}"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"p", "=", 
+       RowBox[{"{", 
+        RowBox[{"p1", ",", "p2", ",", "p3"}], "}"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"norm", "=", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{"Sum", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{"c", "[", 
+              RowBox[{"[", "i", "]"}], "]"}], ")"}], "^", "2"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"i", ",", "1", ",", "n"}], "}"}]}], "]"}], ")"}], "^", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"-", "1"}], "/", "2"}], ")"}]}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"f", "=", 
+       RowBox[{"Sum", "[", 
+        RowBox[{
+         RowBox[{"norm", "*", 
+          RowBox[{"c", "[", 
+           RowBox[{"[", "i", "]"}], "]"}], "*", 
+          RowBox[{"Exp", "[", 
+           RowBox[{"2", "*", "Pi", "*", "I", "*", 
+            RowBox[{"p", "[", 
+             RowBox[{"[", "i", "]"}], "]"}]}], "]"}], "*", 
+          RowBox[{"Sqrt", "[", "2", "]"}], "*", 
+          RowBox[{"Sin", "[", 
+           RowBox[{"Pi", "*", "i", "*", "x"}], "]"}], "*", 
+          RowBox[{"Exp", "[", 
+           RowBox[{
+            RowBox[{"-", "I"}], "*", "t", "*", 
+            RowBox[{"i", "^", "2"}], "*", "Pi", "*", "2"}], "]"}]}], ",", 
+         RowBox[{"{", 
+          RowBox[{"i", ",", "1", ",", "n"}], "}"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"ProbDensity", "=", 
+       RowBox[{
+        RowBox[{"Conjugate", "[", "f", "]"}], "*", "f"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"EnergyExpectationValue", "=", 
+       RowBox[{"Sum", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"norm", "*", 
+             RowBox[{"c", "[", 
+              RowBox[{"[", "i", "]"}], "]"}]}], ")"}], "^", "2"}], "*", 
+          RowBox[{"i", "^", "2"}]}], ",", 
+         RowBox[{"{", 
+          RowBox[{"i", ",", "1", ",", "n"}], "}"}]}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"Grid", "[", 
+       RowBox[{"{", 
+        RowBox[{"{", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Text", "@", 
+           RowBox[{"Column", "[", 
+            RowBox[{"{", "\[IndentingNewLine]", 
+             RowBox[{"\"\<\>\"", ",", "\[IndentingNewLine]", 
+              RowBox[{"Row", "[", 
+               RowBox[{"{", 
+                RowBox[{"\"\<\[CapitalPsi](\>\"", ",", 
+                 RowBox[{"Style", "[", 
+                  RowBox[{"\"\<x\>\"", ",", "Italic"}], "]"}], ",", 
+                 "\"\<, \>\"", ",", 
+                 RowBox[{"Style", "[", 
+                  RowBox[{"\"\<t\>\"", ",", "Italic"}], "]"}], ",", 
+                 "\"\< = 0) = \[Sum] \>\"", ",", 
+                 RowBox[{
+                  SubscriptBox[
+                   RowBox[{"Style", "[", 
+                    RowBox[{"\"\<c\>\"", ",", "Italic"}], "]"}], 
+                   RowBox[{"Style", "[", 
+                    RowBox[{"\"\<n\>\"", ",", "Italic"}], "]"}]], " ", 
+                  SubscriptBox["\[Psi]", 
+                   RowBox[{"Style", "[", 
+                    RowBox[{"\"\<n\>\"", ",", "Italic"}], "]"}]]}], ",", 
+                 "\"\<(\>\"", ",", 
+                 RowBox[{"Style", "[", 
+                  RowBox[{"\"\<x\>\"", ",", "Italic"}], "]"}], ",", 
+                 "\"\<)\>\""}], "}"}], "]"}], ",", "\[IndentingNewLine]", 
+              RowBox[{"Row", "[", 
+               RowBox[{"{", 
+                RowBox[{"\"\<\[CapitalPsi](\>\"", ",", 
+                 RowBox[{"Style", "[", 
+                  RowBox[{"\"\<x\>\"", ",", "Italic"}], "]"}], ",", 
+                 "\"\<, \>\"", ",", 
+                 RowBox[{"Style", "[", 
+                  RowBox[{"\"\<t\>\"", ",", "Italic"}], "]"}], ",", 
+                 "\"\<) = \[Sum] \>\"", ",", 
+                 SubscriptBox[
+                  RowBox[{"Style", "[", 
+                   RowBox[{"\"\<c\>\"", ",", "Italic"}], "]"}], 
+                  RowBox[{"Style", "[", 
+                   RowBox[{"\"\<n\>\"", ",", "Italic"}], "]"}]], ",", 
+                 SubscriptBox["\"\<\[Psi]\>\"", 
+                  RowBox[{"Style", "[", 
+                   RowBox[{"\"\<n\>\"", ",", "Italic"}], "]"}]], ",", 
+                 "\"\<(\>\"", ",", 
+                 RowBox[{"Style", "[", 
+                  RowBox[{"\"\<x\>\"", ",", "Italic"}], "]"}], ",", 
+                 "\"\<)\>\"", ",", 
+                 SuperscriptBox[
+                  RowBox[{"Style", "[", 
+                   RowBox[{"\"\<e\>\"", ",", "Italic"}], "]"}], 
+                  RowBox[{"Row", "[", 
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Style", "[", 
+                    RowBox[{"\"\<i\>\"", ",", "Italic"}], "]"}], ",", 
+                    "\"\< \>\"", ",", 
+                    SubscriptBox[
+                    RowBox[{"Style", "[", 
+                    RowBox[{"\"\<E\>\"", ",", "Italic"}], "]"}], 
+                    RowBox[{"Style", "[", 
+                    RowBox[{"\"\<n\>\"", ",", "Italic"}], "]"}]], ",", 
+                    RowBox[{"Style", "[", 
+                    RowBox[{"\"\<t\>\"", ",", "Italic"}], "]"}], ",", 
+                    "\"\</\>\"", ",", 
+                    RowBox[{"Style", "[", 
+                    RowBox[{"\"\<h\>\"", ",", "Italic"}], "]"}]}], "}"}], 
+                   "]"}]]}], "}"}], "]"}], ",", "\[IndentingNewLine]", 
+              RowBox[{"Row", "[", 
+               RowBox[{"{", 
+                RowBox[{
+                 SubscriptBox[
+                  RowBox[{"Style", "[", 
+                   RowBox[{"\"\<c\>\"", ",", "Italic"}], "]"}], "1"], ",", 
+                 "\"\< = \>\"", ",", 
+                 RowBox[{"NumberForm", "[", 
+                  RowBox[{
+                   RowBox[{"Chop", "[", " ", 
+                    RowBox[{"norm", "*", 
+                    RowBox[{"c", "[", 
+                    RowBox[{"[", "1", "]"}], "]"}], "*", 
+                    RowBox[{"Exp", "[", 
+                    RowBox[{"2", "*", "Pi", "*", "I", "*", 
+                    RowBox[{"p", "[", 
+                    RowBox[{"[", "1", "]"}], "]"}]}], "]"}]}], " ", "]"}], 
+                   ",", 
+                   RowBox[{"{", 
+                    RowBox[{"4", ",", "3"}], "}"}]}], "]"}]}], "}"}], "]"}], 
+              ",", "\[IndentingNewLine]", 
+              RowBox[{"Row", "[", 
+               RowBox[{"{", 
+                RowBox[{
+                 SubscriptBox[
+                  RowBox[{"Style", "[", 
+                   RowBox[{"\"\<c\>\"", ",", "Italic"}], "]"}], "2"], ",", 
+                 "\"\< = \>\"", ",", ",", 
+                 RowBox[{"NumberForm", "[", 
+                  RowBox[{
+                   RowBox[{"Chop", "[", 
+                    RowBox[{"norm", "*", 
+                    RowBox[{"c", "[", 
+                    RowBox[{"[", "2", "]"}], "]"}], "*", 
+                    RowBox[{"Exp", "[", 
+                    RowBox[{"2", "*", "Pi", "*", "I", "*", 
+                    RowBox[{"p", "[", 
+                    RowBox[{"[", "2", "]"}], "]"}]}], "]"}]}], " ", "]"}], 
+                   ",", 
+                   RowBox[{"{", 
+                    RowBox[{"4", ",", "3"}], "}"}]}], "]"}]}], "}"}], "]"}], 
+              ",", "\[IndentingNewLine]", 
+              RowBox[{"Row", "[", 
+               RowBox[{"{", 
+                RowBox[{
+                 SubscriptBox[
+                  RowBox[{"Style", "[", 
+                   RowBox[{"\"\<c\>\"", ",", "Italic"}], "]"}], "3"], ",", 
+                 "\"\< = \>\"", ",", " ", 
+                 RowBox[{"NumberForm", "[", 
+                  RowBox[{
+                   RowBox[{"Chop", "[", 
+                    RowBox[{"norm", "*", 
+                    RowBox[{"c", "[", 
+                    RowBox[{"[", "3", "]"}], "]"}], "*", 
+                    RowBox[{"Exp", "[", 
+                    RowBox[{"2", "*", "Pi", "*", "I", "*", 
+                    RowBox[{"p", "[", 
+                    RowBox[{"[", "3", "]"}], "]"}]}], "]"}]}], " ", "]"}], 
+                   ",", 
+                   RowBox[{"{", 
+                    RowBox[{"4", ",", "3"}], "}"}]}], "]"}]}], "}"}], "]"}], 
+              ",", "\[IndentingNewLine]", 
+              RowBox[{"Row", "[", 
+               RowBox[{"{", 
+                RowBox[{"\"\<<\>\"", ",", 
+                 RowBox[{"Style", "[", 
+                  RowBox[{"\"\<H\>\"", ",", "Italic"}], "]"}], ",", 
+                 "\"\<> = \>\"", ",", " ", "EnergyExpectationValue"}], "}"}], 
+               "]"}]}], "\[IndentingNewLine]", "}"}], "]"}]}], ",", 
+          "\[IndentingNewLine]", 
+          RowBox[{"GraphicsColumn", "[", 
+           RowBox[{
+            RowBox[{"{", "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"Plot", "[", 
+               RowBox[{
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"Re", "[", "f", "]"}], ",", 
+                  RowBox[{"Im", "[", "f", "]"}]}], "}"}], ",", 
+                RowBox[{"{", 
+                 RowBox[{"x", ",", "0", ",", "1"}], "}"}], ",", 
+                RowBox[{"PlotRange", "\[Rule]", 
+                 RowBox[{"{", 
+                  RowBox[{
+                   RowBox[{"-", "2"}], ",", "2"}], "}"}]}], ",", 
+                RowBox[{"AxesLabel", "\[Rule]", 
+                 RowBox[{"{", 
+                  RowBox[{"x", ",", 
+                   RowBox[{"Row", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Style", "[", 
+                    RowBox[{"\"\<Re[\[CapitalPsi]]\>\"", ",", 
+                    RowBox[{"FontColor", "\[Rule]", "Blue"}]}], "]"}], ",", 
+                    "\"\<,\>\"", ",", "\"\< \>\"", ",", 
+                    RowBox[{"Style", "[", 
+                    RowBox[{"\"\<Im[\[CapitalPsi]]\>\"", ",", 
+                    RowBox[{"FontColor", "\[Rule]", "Red"}]}], "]"}]}], "}"}],
+                     "]"}]}], "}"}]}], ",", 
+                RowBox[{"PlotStyle", "\[Rule]", 
+                 RowBox[{"{", 
+                  RowBox[{"Blue", ",", "Red"}], "}"}]}]}], "]"}], ",", 
+              RowBox[{"Plot", "[", 
+               RowBox[{"ProbDensity", ",", 
+                RowBox[{"{", 
+                 RowBox[{"x", ",", "0", ",", "1"}], "}"}], ",", 
+                RowBox[{"PlotRange", "\[Rule]", 
+                 RowBox[{"{", 
+                  RowBox[{"0", ",", "4"}], "}"}]}], ",", 
+                RowBox[{"AxesLabel", "\[Rule]", 
+                 RowBox[{"{", 
+                  RowBox[{"x", ",", "\[Rho]"}], "}"}]}]}], "]"}]}], 
+             "\[IndentingNewLine]", "}"}], ",", 
+            RowBox[{"ImageSize", "\[Rule]", "300"}]}], "]"}]}], 
+         "\[IndentingNewLine]", "}"}], "}"}], "]"}]}]}], "]"}], 
+   "\[IndentingNewLine]", ",", "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "a1", ",", "1", ",", "\"\<\!\(\*SubscriptBox[\(a\), \(1\)]\)\>\""}], 
+      "}"}], ",", "0.001", ",", "1", ",", 
+     RowBox[{"Appearance", "\[Rule]", "\"\<Labeled\>\""}], ",", 
+     RowBox[{"ImageSize", "\[Rule]", "Tiny"}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "p1", ",", "0", ",", "\"\<\!\(\*SubscriptBox[\(p\), \(1\)]\)\>\""}], 
+      "}"}], ",", "0", ",", "1", ",", ".01", ",", 
+     RowBox[{"Appearance", "\[Rule]", "\"\<Labeled\>\""}], ",", 
+     RowBox[{"ImageSize", "\[Rule]", "Tiny"}]}], "}"}], ",", 
+   "\[IndentingNewLine]", "\"\<\>\"", ",", "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "a2", ",", "0", ",", "\"\<\!\(\*SubscriptBox[\(a\), \(2\)]\)\>\""}], 
+      "}"}], ",", "0", ",", "1", ",", ".01", ",", 
+     RowBox[{"Appearance", "\[Rule]", "\"\<Labeled\>\""}], ",", 
+     RowBox[{"ImageSize", "\[Rule]", "Tiny"}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "p2", ",", "0", ",", "\"\<\!\(\*SubscriptBox[\(p\), \(2\)]\)\>\""}], 
+      "}"}], ",", "0", ",", "1", ",", ".01", ",", 
+     RowBox[{"Appearance", "\[Rule]", "\"\<Labeled\>\""}], ",", 
+     RowBox[{"ImageSize", "\[Rule]", "Tiny"}]}], "}"}], ",", 
+   "\[IndentingNewLine]", "\"\<\>\"", ",", "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "a3", ",", "0", ",", "\"\<\!\(\*SubscriptBox[\(a\), \(3\)]\)\>\""}], 
+      "}"}], ",", "0", ",", "1", ",", ".01", ",", 
+     RowBox[{"Appearance", "\[Rule]", "\"\<Labeled\>\""}], ",", 
+     RowBox[{"ImageSize", "\[Rule]", "Tiny"}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+      "p3", ",", "0", ",", "\"\<\!\(\*SubscriptBox[\(p\), \(3\)]\)\>\""}], 
+      "}"}], ",", "0", ",", "1", ",", ".01", ",", 
+     RowBox[{"Appearance", "\[Rule]", "\"\<Labeled\>\""}], ",", 
+     RowBox[{"ImageSize", "\[Rule]", "Tiny"}]}], "}"}], ",", 
+   "\[IndentingNewLine]", "\"\<\>\"", ",", "\[IndentingNewLine]", 
+   RowBox[{"{", 
+    RowBox[{"t", ",", "0", ",", "1", ",", ".01", ",", 
+     RowBox[{"Appearance", "\[Rule]", "\"\<Labeled\>\""}], ",", 
+     RowBox[{"ImageSize", "\[Rule]", "Tiny"}]}], "}"}], ",", 
+   "\[IndentingNewLine]", 
+   RowBox[{"ControlPlacement", "\[Rule]", "Left"}]}], "\[IndentingNewLine]", 
+  "]"}]], "Input",
+ CellChangeTimes->{
+  3.515352102198909*^9, {3.5153527979776993`*^9, 3.515352801908958*^9}, {
+   3.515429957158659*^9, 3.515430047697712*^9}, {3.515430078620804*^9, 
+   3.5154300825201936`*^9}, {3.5154301499819393`*^9, 3.515430258444784*^9}, {
+   3.515446550479721*^9, 3.515446945435289*^9}, {3.51544697834173*^9, 
+   3.515447033133546*^9}, {3.51544727863232*^9, 3.515447286367161*^9}, {
+   3.5154473267490053`*^9, 3.515447374627715*^9}, {3.5154476489238443`*^9, 
+   3.515447970463037*^9}, {3.515448001915362*^9, 3.515448050387824*^9}, {
+   3.51544808134418*^9, 3.515448163575508*^9}, {3.515448205831087*^9, 
+   3.515448207731159*^9}, {3.515530799773932*^9, 3.51553083836374*^9}, {
+   3.515761974843533*^9, 3.515761987441566*^9}, {3.515769418524418*^9, 
+   3.515769420073339*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`a1$$ = 1, $CellContext`a2$$ = 
+    0, $CellContext`a3$$ = 0, $CellContext`p1$$ = 0, $CellContext`p2$$ = 
+    0, $CellContext`p3$$ = 0, $CellContext`t$$ = 0, Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`a1$$], 1, "\!\(\*SubscriptBox[\(a\), \(1\)]\)"}, 
+      0.001, 1}, {{
+       Hold[$CellContext`p1$$], 0, "\!\(\*SubscriptBox[\(p\), \(1\)]\)"}, 0, 
+      1, 0.01}, {
+      Hold[""], Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`a2$$], 0, "\!\(\*SubscriptBox[\(a\), \(2\)]\)"}, 0, 
+      1, 0.01}, {{
+       Hold[$CellContext`p2$$], 0, "\!\(\*SubscriptBox[\(p\), \(2\)]\)"}, 0, 
+      1, 0.01}, {
+      Hold[""], Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`a3$$], 0, "\!\(\*SubscriptBox[\(a\), \(3\)]\)"}, 0, 
+      1, 0.01}, {{
+       Hold[$CellContext`p3$$], 0, "\!\(\*SubscriptBox[\(p\), \(3\)]\)"}, 0, 
+      1, 0.01}, {
+      Hold[""], Manipulate`Dump`ThisIsNotAControl}, {
+      Hold[$CellContext`t$$], 0, 1, 0.01}}, Typeset`size$$ = {
+    437., {174.34375, 179.65625}}, Typeset`update$$ = 0, Typeset`initDone$$, 
+    Typeset`skipInitDone$$ = True, $CellContext`a1$560688$$ = 
+    0, $CellContext`p1$560689$$ = 0, $CellContext`a2$560690$$ = 
+    0, $CellContext`p2$560691$$ = 0, $CellContext`a3$560692$$ = 
+    0, $CellContext`p3$560693$$ = 0, $CellContext`t$560694$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`a1$$ = 1, $CellContext`a2$$ = 
+        0, $CellContext`a3$$ = 0, $CellContext`p1$$ = 0, $CellContext`p2$$ = 
+        0, $CellContext`p3$$ = 0, $CellContext`t$$ = 0}, 
+      "ControllerVariables" :> {
+        Hold[$CellContext`a1$$, $CellContext`a1$560688$$, 0], 
+        Hold[$CellContext`p1$$, $CellContext`p1$560689$$, 0], 
+        Hold[$CellContext`a2$$, $CellContext`a2$560690$$, 0], 
+        Hold[$CellContext`p2$$, $CellContext`p2$560691$$, 0], 
+        Hold[$CellContext`a3$$, $CellContext`a3$560692$$, 0], 
+        Hold[$CellContext`p3$$, $CellContext`p3$560693$$, 0], 
+        Hold[$CellContext`t$$, $CellContext`t$560694$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> 
+      Module[{$CellContext`n$, $CellContext`c$, $CellContext`p$, \
+$CellContext`norm$, $CellContext`f$, $CellContext`ProbDensity$, \
+$CellContext`EnergyExpectationValue$}, $CellContext`n$ = 
+         3; $CellContext`c$ = {$CellContext`a1$$, $CellContext`a2$$, \
+$CellContext`a3$$}; $CellContext`p$ = {$CellContext`p1$$, $CellContext`p2$$, \
+$CellContext`p3$$}; $CellContext`norm$ = 
+         Sum[Part[$CellContext`c$, $CellContext`i]^2, {$CellContext`i, 
+             1, $CellContext`n$}]^((-1)/2); $CellContext`f$ = 
+         Sum[(((($CellContext`norm$ Part[$CellContext`c$, $CellContext`i]) 
+              Exp[((2 Pi) I) Part[$CellContext`p$, $CellContext`i]]) Sqrt[2]) 
+            Sin[(Pi $CellContext`i) $CellContext`x]) 
+           Exp[((((-I) $CellContext`t$$) $CellContext`i^2) Pi) 
+             2], {$CellContext`i, 
+            1, $CellContext`n$}]; $CellContext`ProbDensity$ = 
+         Conjugate[$CellContext`f$] $CellContext`f$; \
+$CellContext`EnergyExpectationValue$ = 
+         Sum[($CellContext`norm$ 
+             Part[$CellContext`c$, $CellContext`i])^2 $CellContext`i^2, \
+{$CellContext`i, 1, $CellContext`n$}]; Grid[{{
+            Text[
+             Column[{"", 
+               Row[{"\[CapitalPsi](", 
+                 Style["x", Italic], ", ", 
+                 Style["t", Italic], " = 0) = \[Sum] ", Subscript[
+                   Style["c", Italic], 
+                   Style["n", Italic]] Subscript[$CellContext`\[Psi], 
+                   Style["n", Italic]], "(", 
+                 Style["x", Italic], ")"}], 
+               Row[{"\[CapitalPsi](", 
+                 Style["x", Italic], ", ", 
+                 Style["t", Italic], ") = \[Sum] ", 
+                 Subscript[
+                  Style["c", Italic], 
+                  Style["n", Italic]], 
+                 Subscript["\[Psi]", 
+                  Style["n", Italic]], "(", 
+                 Style["x", Italic], ")", Style["e", Italic]^Row[{
+                    Style["i", Italic], " ", 
+                    Subscript[
+                    Style["E", Italic], 
+                    Style["n", Italic]], 
+                    Style["t", Italic], "/", 
+                    Style["h", Italic]}]}], 
+               Row[{
+                 Subscript[
+                  Style["c", Italic], 1], " = ", 
+                 NumberForm[
+                  
+                  Chop[($CellContext`norm$ Part[$CellContext`c$, 1]) 
+                   Exp[((2 Pi) I) Part[$CellContext`p$, 1]]], {4, 3}]}], 
+               Row[{
+                 Subscript[
+                  Style["c", Italic], 2], " = ", Null, 
+                 NumberForm[
+                  
+                  Chop[($CellContext`norm$ Part[$CellContext`c$, 2]) 
+                   Exp[((2 Pi) I) Part[$CellContext`p$, 2]]], {4, 3}]}], 
+               Row[{
+                 Subscript[
+                  Style["c", Italic], 3], " = ", 
+                 NumberForm[
+                  
+                  Chop[($CellContext`norm$ Part[$CellContext`c$, 3]) 
+                   Exp[((2 Pi) I) Part[$CellContext`p$, 3]]], {4, 3}]}], 
+               Row[{"<", 
+                 Style["H", Italic], 
+                 "> = ", $CellContext`EnergyExpectationValue$}]}]], 
+            GraphicsColumn[{
+              Plot[{
+                Re[$CellContext`f$], 
+                Im[$CellContext`f$]}, {$CellContext`x, 0, 1}, 
+               PlotRange -> {-2, 2}, AxesLabel -> {$CellContext`x, 
+                 Row[{
+                   Style["Re[\[CapitalPsi]]", FontColor -> Blue], ",", " ", 
+                   Style["Im[\[CapitalPsi]]", FontColor -> Red]}]}, 
+               PlotStyle -> {Blue, Red}], 
+              
+              Plot[$CellContext`ProbDensity$, {$CellContext`x, 0, 1}, 
+               PlotRange -> {0, 4}, 
+               AxesLabel -> {$CellContext`x, $CellContext`\[Rho]}]}, 
+             ImageSize -> 300]}}]], 
+      "Specifications" :> {{{$CellContext`a1$$, 1, 
+          "\!\(\*SubscriptBox[\(a\), \(1\)]\)"}, 0.001, 1, Appearance -> 
+         "Labeled", ImageSize -> 
+         Tiny}, {{$CellContext`p1$$, 0, "\!\(\*SubscriptBox[\(p\), \(1\)]\)"},
+          0, 1, 0.01, Appearance -> "Labeled", ImageSize -> Tiny}, 
+        "", {{$CellContext`a2$$, 0, "\!\(\*SubscriptBox[\(a\), \(2\)]\)"}, 0, 
+         1, 0.01, Appearance -> "Labeled", ImageSize -> 
+         Tiny}, {{$CellContext`p2$$, 0, "\!\(\*SubscriptBox[\(p\), \(2\)]\)"},
+          0, 1, 0.01, Appearance -> "Labeled", ImageSize -> Tiny}, 
+        "", {{$CellContext`a3$$, 0, "\!\(\*SubscriptBox[\(a\), \(3\)]\)"}, 0, 
+         1, 0.01, Appearance -> "Labeled", ImageSize -> 
+         Tiny}, {{$CellContext`p3$$, 0, "\!\(\*SubscriptBox[\(p\), \(3\)]\)"},
+          0, 1, 0.01, Appearance -> "Labeled", ImageSize -> Tiny}, 
+        "", {$CellContext`t$$, 0, 1, 0.01, Appearance -> "Labeled", ImageSize -> 
+         Tiny}}, "Options" :> {ControlPlacement -> Left}, 
+      "DefaultOptions" :> {ControllerLinking -> True}],
+     ImageSizeCache->{621., {201., 207.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellID->2018460377]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["", "ManipulateCaptionSection"],
+
+Cell["\<\
+This Demonstration shows some solutions to the time-dependent Schr\
+\[ODoubleDot]dinger equation for a 1D infinite square well. You can see how \
+wavefunctions and probability densities evolve in time. You can set initial \
+conditions as a linear combination of the first three energy eigenstates.\
+\>", "ManipulateCaption",
+ CellChangeTimes->{{3.515352250294568*^9, 3.51535226346844*^9}, {
+   3.515352294383028*^9, 3.515352353777584*^9}, {3.51543064354029*^9, 
+   3.5154306647394094`*^9}, 3.5154482324685497`*^9, {3.5155115292772083`*^9, 
+   3.515511652849617*^9}, {3.515511695699292*^9, 3.515511744356827*^9}, {
+   3.515513876409781*^9, 3.515513889109666*^9}},
+ CellID->435036086]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["", "ThumbnailSection"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`a1$$ = 1, $CellContext`a2$$ = 
+    1., $CellContext`a3$$ = 0., $CellContext`p1$$ = 0., $CellContext`p2$$ = 
+    0., $CellContext`p3$$ = 0., $CellContext`t$$ = 0.164, Typeset`show$$ = 
+    True, Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`a1$$], 1, "\!\(\*SubscriptBox[\(a\), \(1\)]\)"}, 
+      0.001, 1}, {{
+       Hold[$CellContext`p1$$], 0., "\!\(\*SubscriptBox[\(p\), \(1\)]\)"}, 0, 
+      1, 0.01}, {
+      Hold[""], Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`a2$$], 1., "\!\(\*SubscriptBox[\(a\), \(2\)]\)"}, 0, 
+      1, 0.01}, {{
+       Hold[$CellContext`p2$$], 0., "\!\(\*SubscriptBox[\(p\), \(2\)]\)"}, 0, 
+      1, 0.01}, {
+      Hold[""], Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`a3$$], 0., "\!\(\*SubscriptBox[\(a\), \(3\)]\)"}, 0, 
+      1, 0.01}, {{
+       Hold[$CellContext`p3$$], 0., "\!\(\*SubscriptBox[\(p\), \(3\)]\)"}, 0, 
+      1, 0.01}, {
+      Hold[""], Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`t$$], 0.164}, 0, 1, 0.01}}, Typeset`size$$ = {
+    437., {174.34375, 179.65625}}, Typeset`update$$ = 0, Typeset`initDone$$, 
+    Typeset`skipInitDone$$ = True, $CellContext`a1$560778$$ = 
+    0, $CellContext`p1$560779$$ = 0, $CellContext`a2$560780$$ = 
+    0, $CellContext`p2$560781$$ = 0, $CellContext`a3$560782$$ = 
+    0, $CellContext`p3$560783$$ = 0, $CellContext`t$560784$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`a1$$ = 1, $CellContext`a2$$ = 
+        1., $CellContext`a3$$ = 0., $CellContext`p1$$ = 0., $CellContext`p2$$ = 
+        0., $CellContext`p3$$ = 0., $CellContext`t$$ = 0.164}, 
+      "ControllerVariables" :> {
+        Hold[$CellContext`a1$$, $CellContext`a1$560778$$, 0], 
+        Hold[$CellContext`p1$$, $CellContext`p1$560779$$, 0], 
+        Hold[$CellContext`a2$$, $CellContext`a2$560780$$, 0], 
+        Hold[$CellContext`p2$$, $CellContext`p2$560781$$, 0], 
+        Hold[$CellContext`a3$$, $CellContext`a3$560782$$, 0], 
+        Hold[$CellContext`p3$$, $CellContext`p3$560783$$, 0], 
+        Hold[$CellContext`t$$, $CellContext`t$560784$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> 
+      Module[{$CellContext`n$, $CellContext`c$, $CellContext`p$, \
+$CellContext`norm$, $CellContext`f$, $CellContext`ProbDensity$, \
+$CellContext`EnergyExpectationValue$}, $CellContext`n$ = 
+         3; $CellContext`c$ = {$CellContext`a1$$, $CellContext`a2$$, \
+$CellContext`a3$$}; $CellContext`p$ = {$CellContext`p1$$, $CellContext`p2$$, \
+$CellContext`p3$$}; $CellContext`norm$ = 
+         Sum[Part[$CellContext`c$, $CellContext`i]^2, {$CellContext`i, 
+             1, $CellContext`n$}]^((-1)/2); $CellContext`f$ = 
+         Sum[(((($CellContext`norm$ Part[$CellContext`c$, $CellContext`i]) 
+              Exp[((2 Pi) I) Part[$CellContext`p$, $CellContext`i]]) Sqrt[2]) 
+            Sin[(Pi $CellContext`i) $CellContext`x]) 
+           Exp[((((-I) $CellContext`t$$) $CellContext`i^2) Pi) 
+             2], {$CellContext`i, 
+            1, $CellContext`n$}]; $CellContext`ProbDensity$ = 
+         Conjugate[$CellContext`f$] $CellContext`f$; \
+$CellContext`EnergyExpectationValue$ = 
+         Sum[($CellContext`norm$ 
+             Part[$CellContext`c$, $CellContext`i])^2 $CellContext`i^2, \
+{$CellContext`i, 1, $CellContext`n$}]; Grid[{{
+            Text[
+             Column[{"", 
+               Row[{"\[CapitalPsi](", 
+                 Style["x", Italic], ", ", 
+                 Style["t", Italic], " = 0) = \[Sum] ", Subscript[
+                   Style["c", Italic], 
+                   Style["n", Italic]] Subscript[$CellContext`\[Psi], 
+                   Style["n", Italic]], "(", 
+                 Style["x", Italic], ")"}], 
+               Row[{"\[CapitalPsi](", 
+                 Style["x", Italic], ", ", 
+                 Style["t", Italic], ") = \[Sum] ", 
+                 Subscript[
+                  Style["c", Italic], 
+                  Style["n", Italic]], 
+                 Subscript["\[Psi]", 
+                  Style["n", Italic]], "(", 
+                 Style["x", Italic], ")", Style["e", Italic]^Row[{
+                    Style["i", Italic], " ", 
+                    Subscript[
+                    Style["E", Italic], 
+                    Style["n", Italic]], 
+                    Style["t", Italic], "/", 
+                    Style["h", Italic]}]}], 
+               Row[{
+                 Subscript[
+                  Style["c", Italic], 1], " = ", 
+                 NumberForm[
+                  
+                  Chop[($CellContext`norm$ Part[$CellContext`c$, 1]) 
+                   Exp[((2 Pi) I) Part[$CellContext`p$, 1]]], {4, 3}]}], 
+               Row[{
+                 Subscript[
+                  Style["c", Italic], 2], " = ", Null, 
+                 NumberForm[
+                  
+                  Chop[($CellContext`norm$ Part[$CellContext`c$, 2]) 
+                   Exp[((2 Pi) I) Part[$CellContext`p$, 2]]], {4, 3}]}], 
+               Row[{
+                 Subscript[
+                  Style["c", Italic], 3], " = ", 
+                 NumberForm[
+                  
+                  Chop[($CellContext`norm$ Part[$CellContext`c$, 3]) 
+                   Exp[((2 Pi) I) Part[$CellContext`p$, 3]]], {4, 3}]}], 
+               Row[{"<", 
+                 Style["H", Italic], 
+                 "> = ", $CellContext`EnergyExpectationValue$}]}]], 
+            GraphicsColumn[{
+              Plot[{
+                Re[$CellContext`f$], 
+                Im[$CellContext`f$]}, {$CellContext`x, 0, 1}, 
+               PlotRange -> {-2, 2}, AxesLabel -> {$CellContext`x, 
+                 Row[{
+                   Style["Re[\[CapitalPsi]]", FontColor -> Blue], ",", " ", 
+                   Style["Im[\[CapitalPsi]]", FontColor -> Red]}]}, 
+               PlotStyle -> {Blue, Red}], 
+              
+              Plot[$CellContext`ProbDensity$, {$CellContext`x, 0, 1}, 
+               PlotRange -> {0, 4}, 
+               AxesLabel -> {$CellContext`x, $CellContext`\[Rho]}]}, 
+             ImageSize -> 300]}}]], 
+      "Specifications" :> {{{$CellContext`a1$$, 1, 
+          "\!\(\*SubscriptBox[\(a\), \(1\)]\)"}, 0.001, 1, Appearance -> 
+         "Labeled", ImageSize -> 
+         Tiny}, {{$CellContext`p1$$, 0., 
+          "\!\(\*SubscriptBox[\(p\), \(1\)]\)"}, 0, 1, 0.01, Appearance -> 
+         "Labeled", ImageSize -> Tiny}, 
+        "", {{$CellContext`a2$$, 1., "\!\(\*SubscriptBox[\(a\), \(2\)]\)"}, 0,
+          1, 0.01, Appearance -> "Labeled", ImageSize -> 
+         Tiny}, {{$CellContext`p2$$, 0., 
+          "\!\(\*SubscriptBox[\(p\), \(2\)]\)"}, 0, 1, 0.01, Appearance -> 
+         "Labeled", ImageSize -> Tiny}, 
+        "", {{$CellContext`a3$$, 0., "\!\(\*SubscriptBox[\(a\), \(3\)]\)"}, 0,
+          1, 0.01, Appearance -> "Labeled", ImageSize -> 
+         Tiny}, {{$CellContext`p3$$, 0., 
+          "\!\(\*SubscriptBox[\(p\), \(3\)]\)"}, 0, 1, 0.01, Appearance -> 
+         "Labeled", ImageSize -> Tiny}, 
+        "", {{$CellContext`t$$, 0.164}, 0, 1, 0.01, Appearance -> "Labeled", 
+         ImageSize -> Tiny}}, "Options" :> {ControlPlacement -> Left}, 
+      "DefaultOptions" :> {ControllerLinking -> True}],
+     ImageSizeCache->{621., {201., 207.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellID->464384580]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["", "SnapshotsSection"],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`a1$$ = 1, $CellContext`a2$$ = 
+    0., $CellContext`a3$$ = 0., $CellContext`p1$$ = 0., $CellContext`p2$$ = 
+    0., $CellContext`p3$$ = 0., $CellContext`t$$ = 0., Typeset`show$$ = True, 
+    Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`a1$$], 1, "\!\(\*SubscriptBox[\(a\), \(1\)]\)"}, 
+      0.001, 1}, {{
+       Hold[$CellContext`p1$$], 0., "\!\(\*SubscriptBox[\(p\), \(1\)]\)"}, 0, 
+      1, 0.01}, {
+      Hold[""], Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`a2$$], 0., "\!\(\*SubscriptBox[\(a\), \(2\)]\)"}, 0, 
+      1, 0.01}, {{
+       Hold[$CellContext`p2$$], 0., "\!\(\*SubscriptBox[\(p\), \(2\)]\)"}, 0, 
+      1, 0.01}, {
+      Hold[""], Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`a3$$], 0., "\!\(\*SubscriptBox[\(a\), \(3\)]\)"}, 0, 
+      1, 0.01}, {{
+       Hold[$CellContext`p3$$], 0., "\!\(\*SubscriptBox[\(p\), \(3\)]\)"}, 0, 
+      1, 0.01}, {
+      Hold[""], Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`t$$], 0.}, 0, 1, 0.01}}, Typeset`size$$ = {
+    437., {174.34375, 179.65625}}, Typeset`update$$ = 0, Typeset`initDone$$, 
+    Typeset`skipInitDone$$ = True, $CellContext`a1$560868$$ = 
+    0, $CellContext`p1$560869$$ = 0, $CellContext`a2$560870$$ = 
+    0, $CellContext`p2$560871$$ = 0, $CellContext`a3$560872$$ = 
+    0, $CellContext`p3$560873$$ = 0, $CellContext`t$560874$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`a1$$ = 1, $CellContext`a2$$ = 
+        0., $CellContext`a3$$ = 0., $CellContext`p1$$ = 0., $CellContext`p2$$ = 
+        0., $CellContext`p3$$ = 0., $CellContext`t$$ = 0.}, 
+      "ControllerVariables" :> {
+        Hold[$CellContext`a1$$, $CellContext`a1$560868$$, 0], 
+        Hold[$CellContext`p1$$, $CellContext`p1$560869$$, 0], 
+        Hold[$CellContext`a2$$, $CellContext`a2$560870$$, 0], 
+        Hold[$CellContext`p2$$, $CellContext`p2$560871$$, 0], 
+        Hold[$CellContext`a3$$, $CellContext`a3$560872$$, 0], 
+        Hold[$CellContext`p3$$, $CellContext`p3$560873$$, 0], 
+        Hold[$CellContext`t$$, $CellContext`t$560874$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> 
+      Module[{$CellContext`n$, $CellContext`c$, $CellContext`p$, \
+$CellContext`norm$, $CellContext`f$, $CellContext`ProbDensity$, \
+$CellContext`EnergyExpectationValue$}, $CellContext`n$ = 
+         3; $CellContext`c$ = {$CellContext`a1$$, $CellContext`a2$$, \
+$CellContext`a3$$}; $CellContext`p$ = {$CellContext`p1$$, $CellContext`p2$$, \
+$CellContext`p3$$}; $CellContext`norm$ = 
+         Sum[Part[$CellContext`c$, $CellContext`i]^2, {$CellContext`i, 
+             1, $CellContext`n$}]^((-1)/2); $CellContext`f$ = 
+         Sum[(((($CellContext`norm$ Part[$CellContext`c$, $CellContext`i]) 
+              Exp[((2 Pi) I) Part[$CellContext`p$, $CellContext`i]]) Sqrt[2]) 
+            Sin[(Pi $CellContext`i) $CellContext`x]) 
+           Exp[((((-I) $CellContext`t$$) $CellContext`i^2) Pi) 
+             2], {$CellContext`i, 
+            1, $CellContext`n$}]; $CellContext`ProbDensity$ = 
+         Conjugate[$CellContext`f$] $CellContext`f$; \
+$CellContext`EnergyExpectationValue$ = 
+         Sum[($CellContext`norm$ 
+             Part[$CellContext`c$, $CellContext`i])^2 $CellContext`i^2, \
+{$CellContext`i, 1, $CellContext`n$}]; Grid[{{
+            Text[
+             Column[{"", 
+               Row[{"\[CapitalPsi](", 
+                 Style["x", Italic], ", ", 
+                 Style["t", Italic], " = 0) = \[Sum] ", Subscript[
+                   Style["c", Italic], 
+                   Style["n", Italic]] Subscript[$CellContext`\[Psi], 
+                   Style["n", Italic]], "(", 
+                 Style["x", Italic], ")"}], 
+               Row[{"\[CapitalPsi](", 
+                 Style["x", Italic], ", ", 
+                 Style["t", Italic], ") = \[Sum] ", 
+                 Subscript[
+                  Style["c", Italic], 
+                  Style["n", Italic]], 
+                 Subscript["\[Psi]", 
+                  Style["n", Italic]], "(", 
+                 Style["x", Italic], ")", Style["e", Italic]^Row[{
+                    Style["i", Italic], " ", 
+                    Subscript[
+                    Style["E", Italic], 
+                    Style["n", Italic]], 
+                    Style["t", Italic], "/", 
+                    Style["h", Italic]}]}], 
+               Row[{
+                 Subscript[
+                  Style["c", Italic], 1], " = ", 
+                 NumberForm[
+                  
+                  Chop[($CellContext`norm$ Part[$CellContext`c$, 1]) 
+                   Exp[((2 Pi) I) Part[$CellContext`p$, 1]]], {4, 3}]}], 
+               Row[{
+                 Subscript[
+                  Style["c", Italic], 2], " = ", Null, 
+                 NumberForm[
+                  
+                  Chop[($CellContext`norm$ Part[$CellContext`c$, 2]) 
+                   Exp[((2 Pi) I) Part[$CellContext`p$, 2]]], {4, 3}]}], 
+               Row[{
+                 Subscript[
+                  Style["c", Italic], 3], " = ", 
+                 NumberForm[
+                  
+                  Chop[($CellContext`norm$ Part[$CellContext`c$, 3]) 
+                   Exp[((2 Pi) I) Part[$CellContext`p$, 3]]], {4, 3}]}], 
+               Row[{"<", 
+                 Style["H", Italic], 
+                 "> = ", $CellContext`EnergyExpectationValue$}]}]], 
+            GraphicsColumn[{
+              Plot[{
+                Re[$CellContext`f$], 
+                Im[$CellContext`f$]}, {$CellContext`x, 0, 1}, 
+               PlotRange -> {-2, 2}, AxesLabel -> {$CellContext`x, 
+                 Row[{
+                   Style["Re[\[CapitalPsi]]", FontColor -> Blue], ",", " ", 
+                   Style["Im[\[CapitalPsi]]", FontColor -> Red]}]}, 
+               PlotStyle -> {Blue, Red}], 
+              
+              Plot[$CellContext`ProbDensity$, {$CellContext`x, 0, 1}, 
+               PlotRange -> {0, 4}, 
+               AxesLabel -> {$CellContext`x, $CellContext`\[Rho]}]}, 
+             ImageSize -> 300]}}]], 
+      "Specifications" :> {{{$CellContext`a1$$, 1, 
+          "\!\(\*SubscriptBox[\(a\), \(1\)]\)"}, 0.001, 1, Appearance -> 
+         "Labeled", ImageSize -> 
+         Tiny}, {{$CellContext`p1$$, 0., 
+          "\!\(\*SubscriptBox[\(p\), \(1\)]\)"}, 0, 1, 0.01, Appearance -> 
+         "Labeled", ImageSize -> Tiny}, 
+        "", {{$CellContext`a2$$, 0., "\!\(\*SubscriptBox[\(a\), \(2\)]\)"}, 0,
+          1, 0.01, Appearance -> "Labeled", ImageSize -> 
+         Tiny}, {{$CellContext`p2$$, 0., 
+          "\!\(\*SubscriptBox[\(p\), \(2\)]\)"}, 0, 1, 0.01, Appearance -> 
+         "Labeled", ImageSize -> Tiny}, 
+        "", {{$CellContext`a3$$, 0., "\!\(\*SubscriptBox[\(a\), \(3\)]\)"}, 0,
+          1, 0.01, Appearance -> "Labeled", ImageSize -> 
+         Tiny}, {{$CellContext`p3$$, 0., 
+          "\!\(\*SubscriptBox[\(p\), \(3\)]\)"}, 0, 1, 0.01, Appearance -> 
+         "Labeled", ImageSize -> Tiny}, 
+        "", {{$CellContext`t$$, 0.}, 0, 1, 0.01, Appearance -> "Labeled", 
+         ImageSize -> Tiny}}, "Options" :> {ControlPlacement -> Left}, 
+      "DefaultOptions" :> {ControllerLinking -> True}],
+     ImageSizeCache->{621., {201., 207.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellID->956062862],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`a1$$ = 1, $CellContext`a2$$ = 
+    1., $CellContext`a3$$ = 0., $CellContext`p1$$ = 0., $CellContext`p2$$ = 
+    0., $CellContext`p3$$ = 0., $CellContext`t$$ = 0.164, Typeset`show$$ = 
+    True, Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`a1$$], 1, "\!\(\*SubscriptBox[\(a\), \(1\)]\)"}, 
+      0.001, 1}, {{
+       Hold[$CellContext`p1$$], 0., "\!\(\*SubscriptBox[\(p\), \(1\)]\)"}, 0, 
+      1, 0.01}, {
+      Hold[""], Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`a2$$], 1., "\!\(\*SubscriptBox[\(a\), \(2\)]\)"}, 0, 
+      1, 0.01}, {{
+       Hold[$CellContext`p2$$], 0., "\!\(\*SubscriptBox[\(p\), \(2\)]\)"}, 0, 
+      1, 0.01}, {
+      Hold[""], Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`a3$$], 0., "\!\(\*SubscriptBox[\(a\), \(3\)]\)"}, 0, 
+      1, 0.01}, {{
+       Hold[$CellContext`p3$$], 0., "\!\(\*SubscriptBox[\(p\), \(3\)]\)"}, 0, 
+      1, 0.01}, {
+      Hold[""], Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`t$$], 0.164}, 0, 1, 0.01}}, Typeset`size$$ = {
+    437., {174.34375, 179.65625}}, Typeset`update$$ = 0, Typeset`initDone$$, 
+    Typeset`skipInitDone$$ = True, $CellContext`a1$560958$$ = 
+    0, $CellContext`p1$560959$$ = 0, $CellContext`a2$560960$$ = 
+    0, $CellContext`p2$560961$$ = 0, $CellContext`a3$560962$$ = 
+    0, $CellContext`p3$560963$$ = 0, $CellContext`t$560964$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`a1$$ = 1, $CellContext`a2$$ = 
+        1., $CellContext`a3$$ = 0., $CellContext`p1$$ = 0., $CellContext`p2$$ = 
+        0., $CellContext`p3$$ = 0., $CellContext`t$$ = 0.164}, 
+      "ControllerVariables" :> {
+        Hold[$CellContext`a1$$, $CellContext`a1$560958$$, 0], 
+        Hold[$CellContext`p1$$, $CellContext`p1$560959$$, 0], 
+        Hold[$CellContext`a2$$, $CellContext`a2$560960$$, 0], 
+        Hold[$CellContext`p2$$, $CellContext`p2$560961$$, 0], 
+        Hold[$CellContext`a3$$, $CellContext`a3$560962$$, 0], 
+        Hold[$CellContext`p3$$, $CellContext`p3$560963$$, 0], 
+        Hold[$CellContext`t$$, $CellContext`t$560964$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> 
+      Module[{$CellContext`n$, $CellContext`c$, $CellContext`p$, \
+$CellContext`norm$, $CellContext`f$, $CellContext`ProbDensity$, \
+$CellContext`EnergyExpectationValue$}, $CellContext`n$ = 
+         3; $CellContext`c$ = {$CellContext`a1$$, $CellContext`a2$$, \
+$CellContext`a3$$}; $CellContext`p$ = {$CellContext`p1$$, $CellContext`p2$$, \
+$CellContext`p3$$}; $CellContext`norm$ = 
+         Sum[Part[$CellContext`c$, $CellContext`i]^2, {$CellContext`i, 
+             1, $CellContext`n$}]^((-1)/2); $CellContext`f$ = 
+         Sum[(((($CellContext`norm$ Part[$CellContext`c$, $CellContext`i]) 
+              Exp[((2 Pi) I) Part[$CellContext`p$, $CellContext`i]]) Sqrt[2]) 
+            Sin[(Pi $CellContext`i) $CellContext`x]) 
+           Exp[((((-I) $CellContext`t$$) $CellContext`i^2) Pi) 
+             2], {$CellContext`i, 
+            1, $CellContext`n$}]; $CellContext`ProbDensity$ = 
+         Conjugate[$CellContext`f$] $CellContext`f$; \
+$CellContext`EnergyExpectationValue$ = 
+         Sum[($CellContext`norm$ 
+             Part[$CellContext`c$, $CellContext`i])^2 $CellContext`i^2, \
+{$CellContext`i, 1, $CellContext`n$}]; Grid[{{
+            Text[
+             Column[{"", 
+               Row[{"\[CapitalPsi](", 
+                 Style["x", Italic], ", ", 
+                 Style["t", Italic], " = 0) = \[Sum] ", Subscript[
+                   Style["c", Italic], 
+                   Style["n", Italic]] Subscript[$CellContext`\[Psi], 
+                   Style["n", Italic]], "(", 
+                 Style["x", Italic], ")"}], 
+               Row[{"\[CapitalPsi](", 
+                 Style["x", Italic], ", ", 
+                 Style["t", Italic], ") = \[Sum] ", 
+                 Subscript[
+                  Style["c", Italic], 
+                  Style["n", Italic]], 
+                 Subscript["\[Psi]", 
+                  Style["n", Italic]], "(", 
+                 Style["x", Italic], ")", Style["e", Italic]^Row[{
+                    Style["i", Italic], " ", 
+                    Subscript[
+                    Style["E", Italic], 
+                    Style["n", Italic]], 
+                    Style["t", Italic], "/", 
+                    Style["h", Italic]}]}], 
+               Row[{
+                 Subscript[
+                  Style["c", Italic], 1], " = ", 
+                 NumberForm[
+                  
+                  Chop[($CellContext`norm$ Part[$CellContext`c$, 1]) 
+                   Exp[((2 Pi) I) Part[$CellContext`p$, 1]]], {4, 3}]}], 
+               Row[{
+                 Subscript[
+                  Style["c", Italic], 2], " = ", Null, 
+                 NumberForm[
+                  
+                  Chop[($CellContext`norm$ Part[$CellContext`c$, 2]) 
+                   Exp[((2 Pi) I) Part[$CellContext`p$, 2]]], {4, 3}]}], 
+               Row[{
+                 Subscript[
+                  Style["c", Italic], 3], " = ", 
+                 NumberForm[
+                  
+                  Chop[($CellContext`norm$ Part[$CellContext`c$, 3]) 
+                   Exp[((2 Pi) I) Part[$CellContext`p$, 3]]], {4, 3}]}], 
+               Row[{"<", 
+                 Style["H", Italic], 
+                 "> = ", $CellContext`EnergyExpectationValue$}]}]], 
+            GraphicsColumn[{
+              Plot[{
+                Re[$CellContext`f$], 
+                Im[$CellContext`f$]}, {$CellContext`x, 0, 1}, 
+               PlotRange -> {-2, 2}, AxesLabel -> {$CellContext`x, 
+                 Row[{
+                   Style["Re[\[CapitalPsi]]", FontColor -> Blue], ",", " ", 
+                   Style["Im[\[CapitalPsi]]", FontColor -> Red]}]}, 
+               PlotStyle -> {Blue, Red}], 
+              
+              Plot[$CellContext`ProbDensity$, {$CellContext`x, 0, 1}, 
+               PlotRange -> {0, 4}, 
+               AxesLabel -> {$CellContext`x, $CellContext`\[Rho]}]}, 
+             ImageSize -> 300]}}]], 
+      "Specifications" :> {{{$CellContext`a1$$, 1, 
+          "\!\(\*SubscriptBox[\(a\), \(1\)]\)"}, 0.001, 1, Appearance -> 
+         "Labeled", ImageSize -> 
+         Tiny}, {{$CellContext`p1$$, 0., 
+          "\!\(\*SubscriptBox[\(p\), \(1\)]\)"}, 0, 1, 0.01, Appearance -> 
+         "Labeled", ImageSize -> Tiny}, 
+        "", {{$CellContext`a2$$, 1., "\!\(\*SubscriptBox[\(a\), \(2\)]\)"}, 0,
+          1, 0.01, Appearance -> "Labeled", ImageSize -> 
+         Tiny}, {{$CellContext`p2$$, 0., 
+          "\!\(\*SubscriptBox[\(p\), \(2\)]\)"}, 0, 1, 0.01, Appearance -> 
+         "Labeled", ImageSize -> Tiny}, 
+        "", {{$CellContext`a3$$, 0., "\!\(\*SubscriptBox[\(a\), \(3\)]\)"}, 0,
+          1, 0.01, Appearance -> "Labeled", ImageSize -> 
+         Tiny}, {{$CellContext`p3$$, 0., 
+          "\!\(\*SubscriptBox[\(p\), \(3\)]\)"}, 0, 1, 0.01, Appearance -> 
+         "Labeled", ImageSize -> Tiny}, 
+        "", {{$CellContext`t$$, 0.164}, 0, 1, 0.01, Appearance -> "Labeled", 
+         ImageSize -> Tiny}}, "Options" :> {ControlPlacement -> Left}, 
+      "DefaultOptions" :> {ControllerLinking -> True}],
+     ImageSizeCache->{621., {201., 207.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellID->1075874780],
+
+Cell[BoxData[
+ TagBox[
+  StyleBox[
+   DynamicModuleBox[{$CellContext`a1$$ = 1., $CellContext`a2$$ = 
+    0., $CellContext`a3$$ = 1., $CellContext`p1$$ = 0., $CellContext`p2$$ = 
+    0., $CellContext`p3$$ = 0., $CellContext`t$$ = 0.022, Typeset`show$$ = 
+    True, Typeset`bookmarkList$$ = {}, Typeset`bookmarkMode$$ = "Menu", 
+    Typeset`animator$$, Typeset`animvar$$ = 1, Typeset`name$$ = 
+    "\"untitled\"", Typeset`specs$$ = {{{
+       Hold[$CellContext`a1$$], 1., "\!\(\*SubscriptBox[\(a\), \(1\)]\)"}, 
+      0.001, 1}, {{
+       Hold[$CellContext`p1$$], 0., "\!\(\*SubscriptBox[\(p\), \(1\)]\)"}, 0, 
+      1, 0.01}, {
+      Hold[""], Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`a2$$], 0., "\!\(\*SubscriptBox[\(a\), \(2\)]\)"}, 0, 
+      1, 0.01}, {{
+       Hold[$CellContext`p2$$], 0., "\!\(\*SubscriptBox[\(p\), \(2\)]\)"}, 0, 
+      1, 0.01}, {
+      Hold[""], Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`a3$$], 1., "\!\(\*SubscriptBox[\(a\), \(3\)]\)"}, 0, 
+      1, 0.01}, {{
+       Hold[$CellContext`p3$$], 0., "\!\(\*SubscriptBox[\(p\), \(3\)]\)"}, 0, 
+      1, 0.01}, {
+      Hold[""], Manipulate`Dump`ThisIsNotAControl}, {{
+       Hold[$CellContext`t$$], 0.022}, 0, 1, 0.01}}, Typeset`size$$ = {
+    437., {174.34375, 179.65625}}, Typeset`update$$ = 0, Typeset`initDone$$, 
+    Typeset`skipInitDone$$ = True, $CellContext`a1$561048$$ = 
+    0, $CellContext`p1$561049$$ = 0, $CellContext`a2$561050$$ = 
+    0, $CellContext`p2$561051$$ = 0, $CellContext`a3$561052$$ = 
+    0, $CellContext`p3$561053$$ = 0, $CellContext`t$561054$$ = 0}, 
+    DynamicBox[Manipulate`ManipulateBoxes[
+     1, StandardForm, 
+      "Variables" :> {$CellContext`a1$$ = 1., $CellContext`a2$$ = 
+        0., $CellContext`a3$$ = 1., $CellContext`p1$$ = 0., $CellContext`p2$$ = 
+        0., $CellContext`p3$$ = 0., $CellContext`t$$ = 0.022}, 
+      "ControllerVariables" :> {
+        Hold[$CellContext`a1$$, $CellContext`a1$561048$$, 0], 
+        Hold[$CellContext`p1$$, $CellContext`p1$561049$$, 0], 
+        Hold[$CellContext`a2$$, $CellContext`a2$561050$$, 0], 
+        Hold[$CellContext`p2$$, $CellContext`p2$561051$$, 0], 
+        Hold[$CellContext`a3$$, $CellContext`a3$561052$$, 0], 
+        Hold[$CellContext`p3$$, $CellContext`p3$561053$$, 0], 
+        Hold[$CellContext`t$$, $CellContext`t$561054$$, 0]}, 
+      "OtherVariables" :> {
+       Typeset`show$$, Typeset`bookmarkList$$, Typeset`bookmarkMode$$, 
+        Typeset`animator$$, Typeset`animvar$$, Typeset`name$$, 
+        Typeset`specs$$, Typeset`size$$, Typeset`update$$, Typeset`initDone$$,
+         Typeset`skipInitDone$$}, "Body" :> 
+      Module[{$CellContext`n$, $CellContext`c$, $CellContext`p$, \
+$CellContext`norm$, $CellContext`f$, $CellContext`ProbDensity$, \
+$CellContext`EnergyExpectationValue$}, $CellContext`n$ = 
+         3; $CellContext`c$ = {$CellContext`a1$$, $CellContext`a2$$, \
+$CellContext`a3$$}; $CellContext`p$ = {$CellContext`p1$$, $CellContext`p2$$, \
+$CellContext`p3$$}; $CellContext`norm$ = 
+         Sum[Part[$CellContext`c$, $CellContext`i]^2, {$CellContext`i, 
+             1, $CellContext`n$}]^((-1)/2); $CellContext`f$ = 
+         Sum[(((($CellContext`norm$ Part[$CellContext`c$, $CellContext`i]) 
+              Exp[((2 Pi) I) Part[$CellContext`p$, $CellContext`i]]) Sqrt[2]) 
+            Sin[(Pi $CellContext`i) $CellContext`x]) 
+           Exp[((((-I) $CellContext`t$$) $CellContext`i^2) Pi) 
+             2], {$CellContext`i, 
+            1, $CellContext`n$}]; $CellContext`ProbDensity$ = 
+         Conjugate[$CellContext`f$] $CellContext`f$; \
+$CellContext`EnergyExpectationValue$ = 
+         Sum[($CellContext`norm$ 
+             Part[$CellContext`c$, $CellContext`i])^2 $CellContext`i^2, \
+{$CellContext`i, 1, $CellContext`n$}]; Grid[{{
+            Text[
+             Column[{"", 
+               Row[{"\[CapitalPsi](", 
+                 Style["x", Italic], ", ", 
+                 Style["t", Italic], " = 0) = \[Sum] ", Subscript[
+                   Style["c", Italic], 
+                   Style["n", Italic]] Subscript[$CellContext`\[Psi], 
+                   Style["n", Italic]], "(", 
+                 Style["x", Italic], ")"}], 
+               Row[{"\[CapitalPsi](", 
+                 Style["x", Italic], ", ", 
+                 Style["t", Italic], ") = \[Sum] ", 
+                 Subscript[
+                  Style["c", Italic], 
+                  Style["n", Italic]], 
+                 Subscript["\[Psi]", 
+                  Style["n", Italic]], "(", 
+                 Style["x", Italic], ")", Style["e", Italic]^Row[{
+                    Style["i", Italic], " ", 
+                    Subscript[
+                    Style["E", Italic], 
+                    Style["n", Italic]], 
+                    Style["t", Italic], "/", 
+                    Style["h", Italic]}]}], 
+               Row[{
+                 Subscript[
+                  Style["c", Italic], 1], " = ", 
+                 NumberForm[
+                  
+                  Chop[($CellContext`norm$ Part[$CellContext`c$, 1]) 
+                   Exp[((2 Pi) I) Part[$CellContext`p$, 1]]], {4, 3}]}], 
+               Row[{
+                 Subscript[
+                  Style["c", Italic], 2], " = ", Null, 
+                 NumberForm[
+                  
+                  Chop[($CellContext`norm$ Part[$CellContext`c$, 2]) 
+                   Exp[((2 Pi) I) Part[$CellContext`p$, 2]]], {4, 3}]}], 
+               Row[{
+                 Subscript[
+                  Style["c", Italic], 3], " = ", 
+                 NumberForm[
+                  
+                  Chop[($CellContext`norm$ Part[$CellContext`c$, 3]) 
+                   Exp[((2 Pi) I) Part[$CellContext`p$, 3]]], {4, 3}]}], 
+               Row[{"<", 
+                 Style["H", Italic], 
+                 "> = ", $CellContext`EnergyExpectationValue$}]}]], 
+            GraphicsColumn[{
+              Plot[{
+                Re[$CellContext`f$], 
+                Im[$CellContext`f$]}, {$CellContext`x, 0, 1}, 
+               PlotRange -> {-2, 2}, AxesLabel -> {$CellContext`x, 
+                 Row[{
+                   Style["Re[\[CapitalPsi]]", FontColor -> Blue], ",", " ", 
+                   Style["Im[\[CapitalPsi]]", FontColor -> Red]}]}, 
+               PlotStyle -> {Blue, Red}], 
+              
+              Plot[$CellContext`ProbDensity$, {$CellContext`x, 0, 1}, 
+               PlotRange -> {0, 4}, 
+               AxesLabel -> {$CellContext`x, $CellContext`\[Rho]}]}, 
+             ImageSize -> 300]}}]], 
+      "Specifications" :> {{{$CellContext`a1$$, 1., 
+          "\!\(\*SubscriptBox[\(a\), \(1\)]\)"}, 0.001, 1, Appearance -> 
+         "Labeled", ImageSize -> 
+         Tiny}, {{$CellContext`p1$$, 0., 
+          "\!\(\*SubscriptBox[\(p\), \(1\)]\)"}, 0, 1, 0.01, Appearance -> 
+         "Labeled", ImageSize -> Tiny}, 
+        "", {{$CellContext`a2$$, 0., "\!\(\*SubscriptBox[\(a\), \(2\)]\)"}, 0,
+          1, 0.01, Appearance -> "Labeled", ImageSize -> 
+         Tiny}, {{$CellContext`p2$$, 0., 
+          "\!\(\*SubscriptBox[\(p\), \(2\)]\)"}, 0, 1, 0.01, Appearance -> 
+         "Labeled", ImageSize -> Tiny}, 
+        "", {{$CellContext`a3$$, 1., "\!\(\*SubscriptBox[\(a\), \(3\)]\)"}, 0,
+          1, 0.01, Appearance -> "Labeled", ImageSize -> 
+         Tiny}, {{$CellContext`p3$$, 0., 
+          "\!\(\*SubscriptBox[\(p\), \(3\)]\)"}, 0, 1, 0.01, Appearance -> 
+         "Labeled", ImageSize -> Tiny}, 
+        "", {{$CellContext`t$$, 0.022}, 0, 1, 0.01, Appearance -> "Labeled", 
+         ImageSize -> Tiny}}, "Options" :> {ControlPlacement -> Left}, 
+      "DefaultOptions" :> {ControllerLinking -> True}],
+     ImageSizeCache->{621., {201., 207.}},
+     SingleEvaluation->True],
+    Deinitialization:>None,
+    DynamicModuleValues:>{},
+    SynchronousInitialization->True,
+    UnsavedVariables:>{Typeset`initDone$$},
+    UntrackedVariables:>{Typeset`size$$}], "Manipulate",
+   Deployed->True,
+   StripOnInput->False],
+  Manipulate`InterpretManipulate[1]]], "Output",
+ CellID->415119720]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["", "DetailsSection"],
+
+Cell[TextData[{
+ "Vary the time ",
+ Cell[BoxData[
+  FormBox["t", TraditionalForm]], "InlineMath"],
+ " to see the evolution of the wavefunction of a particle of mass ",
+ Cell[BoxData[
+  FormBox["m", TraditionalForm]], "InlineMath"],
+ " in an infinite square well of length ",
+ Cell[BoxData[
+  FormBox["L", TraditionalForm]], "InlineMath"],
+ ". Initial conditions are a linear combination of the first three energy \
+eigenstates ",
+ Cell[BoxData[
+  FormBox[
+   SubscriptBox["\[Psi]", "n"], TraditionalForm]], "InlineMath"],
+ ". The amplitude of each coefficient is set by the ",
+ Cell[BoxData[
+  FormBox["a", TraditionalForm]], "InlineMath"],
+ " sliders. The phase of each coefficient at ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"t", "=", "0"}], TraditionalForm]], "InlineMath"],
+ " is set by the ",
+ Cell[BoxData[
+  FormBox["p", TraditionalForm]], "InlineMath"],
+ " sliders. The wavefunction is automatically normalized."
+}], "DetailNotes",
+ CellChangeTimes->{{3.515430389874926*^9, 3.515430429471885*^9}, {
+   3.5154306195398903`*^9, 3.515430623249261*^9}, {3.515448257387491*^9, 
+   3.5154483027903748`*^9}, {3.515511896673064*^9, 3.515511903200079*^9}, {
+   3.515513905082528*^9, 3.51551393021515*^9}, 3.516022848516034*^9},
+ CellID->66807767],
+
+Cell[TextData[{
+ "Position is in units of ",
+ Cell[BoxData[
+  FormBox["L", TraditionalForm]], "InlineMath"],
+ "."
+}], "DetailNotes",
+ CellChangeTimes->{3.5154304434862866`*^9, 3.515448316886985*^9},
+ CellID->560946216],
+
+Cell[TextData[{
+ Cell[BoxData[
+  FormBox["\[CapitalPsi]", TraditionalForm]], "InlineMath"],
+ " is in units of ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["L", 
+    RowBox[{
+     RowBox[{"-", "1"}], "/", "2"}]], TraditionalForm]], "InlineMath"],
+ "."
+}], "DetailNotes",
+ CellChangeTimes->{{3.5154304642873664`*^9, 3.5154304681207495`*^9}, 
+   3.515513942709544*^9},
+ CellID->561860165],
+
+Cell[TextData[{
+ Cell[BoxData[
+  FormBox["\[Rho]", TraditionalForm]], "InlineMath"],
+ " is in units of ",
+ Cell[BoxData[
+  FormBox[
+   SuperscriptBox["L", 
+    RowBox[{"-", "1"}]], TraditionalForm]], "InlineMath"],
+ "."
+}], "DetailNotes",
+ CellChangeTimes->{{3.5154304902679644`*^9, 3.5154304951554527`*^9}, 
+   3.515513953067235*^9},
+ CellID->668013502],
+
+Cell[TextData[{
+ "Energy is in units of ",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    FormBox[
+     SuperscriptBox["\[HBar]", "2"],
+     TraditionalForm], " ", 
+    RowBox[{
+     FormBox[
+      SuperscriptBox["\[Pi]", "2"],
+      TraditionalForm], "/", "2"}], 
+    FormBox[
+     SuperscriptBox["mL", "2"],
+     TraditionalForm]}], TraditionalForm]], "InlineMath"],
+ "."
+}], "DetailNotes",
+ CellChangeTimes->{{3.515430567787716*^9, 3.515430609302867*^9}},
+ CellID->209597892],
+
+Cell[TextData[{
+ "Time is in units of",
+ Cell[BoxData[
+  FormBox[
+   RowBox[{"  ", 
+    RowBox[{"\[HBar]", "/", 
+     RowBox[{"(", 
+      RowBox[{"2", "\[Pi]"}]}]}]}], TraditionalForm]], "InlineMath"],
+ " energy units)."
+}], "DetailNotes",
+ CellChangeTimes->{{3.515430567787716*^9, 3.515430607889725*^9}, {
+  3.515511814586334*^9, 3.515511848160186*^9}, {3.515513962347097*^9, 
+  3.515513974342016*^9}, {3.5155335022261057`*^9, 3.5155335046731787`*^9}},
+ CellID->119148254]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["", "ControlSuggestionsSection"],
+
+Cell[BoxData[
+ TooltipBox[
+  RowBox[{
+   CheckboxBox[True], Cell[" Resize Images"]}],
+  "\"Click inside an image to reveal its orange resize frame.\\nDrag any of \
+the orange resize handles to resize the image.\"",
+  TooltipDelay->0.35]], "ControlSuggestions",
+ CellChangeTimes->{3.5153521634954576`*^9},
+ FontFamily->"Verdana",
+ CellTags->"ResizeImages"],
+
+Cell[BoxData[
+ TooltipBox[
+  RowBox[{
+   CheckboxBox[False], Cell[" Rotate and Zoom in 3D"]}],
+  RowBox[{
+   "\"Drag a 3D graphic to rotate it. Starting the drag near the center \
+tumbles\\nthe graphic; starting near a corner turns it parallel to the plane \
+of the screen.\\nHold down \"", 
+    FrameBox[
+    "Ctrl", Background -> GrayLevel[0.9], FrameMargins -> 2, FrameStyle -> 
+     GrayLevel[0.9]], "\" (or \"", 
+    FrameBox[
+    "Cmd", Background -> GrayLevel[0.9], FrameMargins -> 2, FrameStyle -> 
+     GrayLevel[0.9]], "\" on Mac) and drag up and down to zoom.\""}],
+  TooltipDelay->0.35]], "ControlSuggestions",
+ FontFamily->"Verdana",
+ CellTags->"RotateAndZoomIn3D"],
+
+Cell[BoxData[
+ TooltipBox[
+  RowBox[{
+   CheckboxBox[False], Cell[" Drag Locators"]}],
+  RowBox[{"\"Drag any locator (\"", 
+    GraphicsBox[
+     LocatorBox[
+      Scaled[{0.5, 0.5}]], ImageSize -> 20], 
+    "\", etc.) to move it around.\""}],
+  TooltipDelay->0.35]], "ControlSuggestions",
+ FontFamily->"Verdana",
+ CellTags->"DragLocators"],
+
+Cell[BoxData[
+ TooltipBox[
+  RowBox[{
+   CheckboxBox[False], Cell[" Create and Delete Locators"]}],
+  RowBox[{"\"Insert a new locator in the graphic by holding down the \"", 
+    FrameBox[
+    "Alt", Background -> GrayLevel[0.9], FrameMargins -> 2, FrameStyle -> 
+     GrayLevel[0.9]], 
+    "\" key\\nand clicking where you want it to be. Delete a locator by \
+clicking it\\nwhile holding down the \"", 
+    FrameBox[
+    "Alt", Background -> GrayLevel[0.9], FrameMargins -> 2, FrameStyle -> 
+     GrayLevel[0.9]], "\" key.\""}],
+  TooltipDelay->0.35]], "ControlSuggestions",
+ FontFamily->"Verdana",
+ CellTags->"CreateAndDeleteLocators"],
+
+Cell[BoxData[
+ TooltipBox[
+  RowBox[{
+   CheckboxBox[True], Cell[" Slider Zoom"]}],
+  RowBox[{"\"Hold down the \"", 
+    FrameBox[
+    "Alt", Background -> GrayLevel[0.9], FrameMargins -> 2, FrameStyle -> 
+     GrayLevel[0.9]], 
+    "\" key while moving a slider to make fine adjustments in the slider \
+value.\\nHold \"", 
+    FrameBox[
+    "Ctrl", Background -> GrayLevel[0.9], FrameMargins -> 2, FrameStyle -> 
+     GrayLevel[0.9]], "\" and/or \"", 
+    FrameBox[
+    "Shift", Background -> GrayLevel[0.9], FrameMargins -> 2, FrameStyle -> 
+     GrayLevel[0.9]], "\" at the same time as \"", 
+    FrameBox[
+    "Alt", Background -> GrayLevel[0.9], FrameMargins -> 2, FrameStyle -> 
+     GrayLevel[0.9]], "\" to make ever finer adjustments.\""}],
+  TooltipDelay->0.35]], "ControlSuggestions",
+ CellChangeTimes->{3.515448338767706*^9},
+ FontFamily->"Verdana",
+ CellTags->"SliderZoom"],
+
+Cell[BoxData[
+ TooltipBox[
+  RowBox[{
+   CheckboxBox[False], Cell[" Gamepad Controls"]}],
+  "\"Control this Demonstration with a gamepad or other\\nhuman interface \
+device connected to your computer.\"",
+  TooltipDelay->0.35]], "ControlSuggestions",
+ CellChangeTimes->{3.35696210375764*^9, 3.3895522232313623`*^9},
+ FontFamily->"Verdana",
+ CellTags->"GamepadControls"],
+
+Cell[BoxData[
+ TooltipBox[
+  RowBox[{
+   CheckboxBox[True], Cell[" Automatic Animation"]}],
+  RowBox[{"\"Animate a slider in this Demonstration by clicking the\"", 
+    AdjustmentBox[
+     Cell[
+      GraphicsData[
+      "CompressedBitmap", 
+       "eJzzTSzJSM1NLMlMTlRwL0osyMhMLlZwyy8CCjEzMjAwcIKwAgOI/R/IhBKc\n\
+/4EAyGAG0f+nTZsGwgysIJIRKsWKLAXGIHFmEpUgLADxWUAkI24jZs+eTaEt\n\
+IG+wQKRmzJgBlYf5lhEA30OqWA=="], "Graphics", ImageSize -> {9, 9}, ImageMargins -> 
+      0, CellBaseline -> Baseline], BoxBaselineShift -> 0.1839080459770115, 
+     BoxMargins -> {{0., 0.}, {-0.1839080459770115, 0.1839080459770115}}], 
+    "\"button\\nnext to the slider, and then clicking the play button that \
+appears.\\nAnimate all controls by selecting \"", 
+    StyleBox["Autorun", FontWeight -> "Bold"], "\" from the\"", 
+    AdjustmentBox[
+     Cell[
+      GraphicsData[
+      "CompressedBitmap", 
+       "eJyNULENwyAQfEySIlMwTVJlCGRFsosokeNtqBmDBagoaZjAI1C8/8GUUUC6\n\
+57h7cQ8PvU7Pl17nUav7oj/TPH7V7b2QJAUAXBkKmCPRowxICy64bRvGGNF7\n\
+X8CctGoDSN4xhIDGGDhzFXwUh3/ClBKrDQPmnGXtI6u0OOd+tZBVUqy1xSaH\n\
+UqiK6pPe4XdEdAz6563tx/gejuORGMxJaz8mdpJn7hc="], "Graphics", 
+      ImageSize -> {10, 10}, ImageMargins -> 0, CellBaseline -> Baseline], 
+     BoxBaselineShift -> 0.1839080459770115, 
+     BoxMargins -> {{0., 0.}, {-0.1839080459770115, 0.1839080459770115}}], 
+    "\"menu.\""}],
+  TooltipDelay->0.35]], "ControlSuggestions",
+ CellChangeTimes->{3.51544833709132*^9},
+ FontFamily->"Verdana",
+ CellTags->"AutomaticAnimation"],
+
+Cell[BoxData[
+ TooltipBox[
+  RowBox[{
+   CheckboxBox[False], Cell[" Bookmark Animation"]}],
+  RowBox[{
+   "\"See a prepared animation of this Demonstration by selecting\\n\"", 
+    StyleBox["Animate Bookmarks", FontWeight -> "Bold"], "\" from the\"", 
+    AdjustmentBox[
+     Cell[
+      GraphicsData[
+      "CompressedBitmap", 
+       "eJyNULENwyAQfEySIlMwTVJlCGRFsosokeNtqBmDBagoaZjAI1C8/8GUUUC6\n\
+57h7cQ8PvU7Pl17nUav7oj/TPH7V7b2QJAUAXBkKmCPRowxICy64bRvGGNF7\n\
+X8CctGoDSN4xhIDGGDhzFXwUh3/ClBKrDQPmnGXtI6u0OOd+tZBVUqy1xSaH\n\
+UqiK6pPe4XdEdAz6563tx/gejuORGMxJaz8mdpJn7hc="], "Graphics", 
+      ImageSize -> {10, 10}, ImageMargins -> 0, CellBaseline -> Baseline], 
+     BoxBaselineShift -> 0.1839080459770115, 
+     BoxMargins -> {{0., 0.}, {-0.1839080459770115, 0.1839080459770115}}], 
+    "\"menu.\""}],
+  TooltipDelay->0.35]], "ControlSuggestions",
+ FontFamily->"Verdana",
+ CellTags->"BookmarkAnimation"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["", "SearchTermsSection"],
+
+Cell["quantum mechanics", "SearchTerms",
+ CellChangeTimes->{{3.51551201032973*^9, 3.5155120157511*^9}},
+ CellID->1617163014]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["", "RelatedLinksSection"],
+
+Cell[TextData[ButtonBox["Schr\[ODoubleDot]dinger Equation",
+ BaseStyle->"Hyperlink",
+ ButtonData->{
+   URL["http://scienceworld.wolfram.com/physics/SchroedingerEquation.html"], 
+   None},
+ ButtonNote->
+  "http://scienceworld.wolfram.com/physics/SchroedingerEquation.html"]], \
+"RelatedLinks",
+ CellChangeTimes->{{3.515430704696405*^9, 3.5154307186257977`*^9}, {
+  3.515761758093733*^9, 3.5157617580982513`*^9}},
+ CellID->293335980],
+
+Cell[TextData[ButtonBox["Infinite Square Potential Well",
+ BaseStyle->"Hyperlink",
+ ButtonData->{
+   URL["http://scienceworld.wolfram.com/physics/InfiniteSquarePotentialWell.\
+html"], None},
+ ButtonNote->
+  "http://scienceworld.wolfram.com/physics/InfiniteSquarePotentialWell.html"]]\
+, "RelatedLinks",
+ CellChangeTimes->{
+  3.5157617618305473`*^9, {3.515761821585454*^9, 3.515761893782345*^9}},
+ CellID->1899050522],
+
+Cell[TextData[{
+ ButtonBox["Time-Dependent Superposition of Particle-in-a-Box Eigenstates",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    URL["http://demonstrations.wolfram.com/\
+TimeDependentSuperpositionOfParticleInABoxEigenstates/"], None},
+  ButtonNote->
+   "http://demonstrations.wolfram.com/\
+TimeDependentSuperpositionOfParticleInABoxEigenstates/"],
+ " "
+}], "RelatedLinks",
+ CellChangeTimes->{{3.5155122222228823`*^9, 3.5155122616367397`*^9}, {
+   3.515512331895541*^9, 3.515512331902005*^9}, 3.516022981414706*^9},
+ CellID->1105739866]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["", "AuthorSection"],
+
+Cell[TextData[{
+ "Contributed by: ",
+ ButtonBox["Jonathan Weinstein",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    URL["http://demonstrations.wolfram.com/author.html?author=Jonathan+\
+Weinstein"], None},
+  ButtonNote->
+   "http://demonstrations.wolfram.com/author.html?author=Jonathan+Weinstein"]
+}], "Author",
+ CellChangeTimes->{{3.515352112680793*^9, 3.515352114100361*^9}, {
+  3.515761685250873*^9, 3.515761690231779*^9}, {3.516023013024126*^9, 
+  3.516023013068472*^9}}],
+
+Cell[TextData[ButtonBox[" (University of Nevada, Reno)",
+ BaseStyle->"Hyperlink",
+ ButtonData->{
+   URL["http://demonstrations.wolfram.com/author.html?author=Jonathan+\
+Weinstein"], None},
+ ButtonNote->
+  "http://demonstrations.wolfram.com/author.html?author=Jonathan+Weinstein"]],\
+ "Author",
+ CellChangeTimes->{{3.515352112680793*^9, 3.515352114100361*^9}, {
+   3.515761685250873*^9, 3.515761690231779*^9}, 3.516023013024126*^9},
+ CellID->587556493]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1053, 852},
+WindowMargins->{{3, Automatic}, {Automatic, 0}},
+FrontEndVersion->"8.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (February 23, \
+2011)",
+StyleDefinitions->FrontEnd`FileName[{"Wolfram"}, "Demonstration.nb", 
+  CharacterEncoding -> "UTF-8"]
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{
+ "AutomaticAnimation"->{
+  Cell[63021, 1409, 1504, 32, 29, "ControlSuggestions",
+   CellTags->"AutomaticAnimation"]},
+ "BookmarkAnimation"->{
+  Cell[64528, 1443, 908, 21, 29, "ControlSuggestions",
+   CellTags->"BookmarkAnimation"]},
+ "CreateAndDeleteLocators"->{
+  Cell[61121, 1357, 637, 15, 29, "ControlSuggestions",
+   CellTags->"CreateAndDeleteLocators"]},
+ "DragLocators"->{
+  Cell[60778, 1344, 340, 11, 29, "ControlSuggestions",
+   CellTags->"DragLocators"]},
+ "GamepadControls"->{
+  Cell[62649, 1398, 369, 9, 29, "ControlSuggestions",
+   CellTags->"GamepadControls"]},
+ "ResizeImages"->{
+  Cell[59739, 1315, 355, 9, 29, "ControlSuggestions",
+   CellTags->"ResizeImages"]},
+ "RotateAndZoomIn3D"->{
+  Cell[60097, 1326, 678, 16, 29, "ControlSuggestions",
+   CellTags->"RotateAndZoomIn3D"]},
+ "SliderZoom"->{
+  Cell[61761, 1374, 885, 22, 29, "ControlSuggestions",
+   CellTags->"SliderZoom"]}
+ }
+*)
+(*CellTagsIndex
+CellTagsIndex->{
+ {"AutomaticAnimation", 68507, 1564},
+ {"BookmarkAnimation", 68624, 1567},
+ {"CreateAndDeleteLocators", 68745, 1570},
+ {"DragLocators", 68861, 1573},
+ {"GamepadControls", 68969, 1576},
+ {"ResizeImages", 69076, 1579},
+ {"RotateAndZoomIn3D", 69185, 1582},
+ {"SliderZoom", 69293, 1585}
+ }
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 456, 7, 74, "DemoTitle"],
+Cell[1038, 31, 33, 0, 266, "InitializationSection"],
+Cell[CellGroupData[{
+Cell[1096, 35, 29, 0, 188, "ManipulateSection"],
+Cell[CellGroupData[{
+Cell[1150, 39, 14553, 332, 738, "Input"],
+Cell[15706, 373, 7899, 155, 420, "Output",
+ CellID->2018460377]
+}, Open  ]]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[23654, 534, 36, 0, 166, "ManipulateCaptionSection"],
+Cell[23693, 536, 692, 11, 36, "ManipulateCaption",
+ CellID->435036086]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[24422, 552, 28, 0, 168, "ThumbnailSection"],
+Cell[24453, 554, 7978, 158, 420, "Output",
+ CellID->464384580]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[32468, 717, 28, 0, 138, "SnapshotsSection"],
+Cell[32499, 719, 7966, 158, 420, "Output",
+ CellID->956062862],
+Cell[40468, 879, 7979, 158, 420, "Output",
+ CellID->1075874780],
+Cell[48450, 1039, 7982, 158, 420, "Output",
+ CellID->415119720]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[56469, 1202, 26, 0, 332, "DetailsSection"],
+Cell[56498, 1204, 1244, 31, 51, "DetailNotes",
+ CellID->66807767],
+Cell[57745, 1237, 218, 7, 22, "DetailNotes",
+ CellID->560946216],
+Cell[57966, 1246, 387, 13, 23, "DetailNotes",
+ CellID->561860165],
+Cell[58356, 1261, 354, 12, 23, "DetailNotes",
+ CellID->668013502],
+Cell[58713, 1275, 473, 18, 27, "DetailNotes",
+ CellID->209597892],
+Cell[59189, 1295, 473, 13, 22, "DetailNotes",
+ CellID->119148254]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[59699, 1313, 37, 0, 120, "ControlSuggestionsSection"],
+Cell[59739, 1315, 355, 9, 29, "ControlSuggestions",
+ CellTags->"ResizeImages"],
+Cell[60097, 1326, 678, 16, 29, "ControlSuggestions",
+ CellTags->"RotateAndZoomIn3D"],
+Cell[60778, 1344, 340, 11, 29, "ControlSuggestions",
+ CellTags->"DragLocators"],
+Cell[61121, 1357, 637, 15, 29, "ControlSuggestions",
+ CellTags->"CreateAndDeleteLocators"],
+Cell[61761, 1374, 885, 22, 29, "ControlSuggestions",
+ CellTags->"SliderZoom"],
+Cell[62649, 1398, 369, 9, 29, "ControlSuggestions",
+ CellTags->"GamepadControls"],
+Cell[63021, 1409, 1504, 32, 29, "ControlSuggestions",
+ CellTags->"AutomaticAnimation"],
+Cell[64528, 1443, 908, 21, 29, "ControlSuggestions",
+ CellTags->"BookmarkAnimation"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[65473, 1469, 30, 0, 152, "SearchTermsSection"],
+Cell[65506, 1471, 124, 2, 21, "SearchTerms",
+ CellID->1617163014]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[65667, 1478, 31, 0, 144, "RelatedLinksSection"],
+Cell[65701, 1480, 431, 10, 22, "RelatedLinks",
+ CellID->293335980],
+Cell[66135, 1492, 416, 10, 21, "RelatedLinks",
+ CellID->1899050522],
+Cell[66554, 1504, 544, 13, 21, "RelatedLinks",
+ CellID->1105739866]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[67135, 1522, 25, 0, 136, "AuthorSection"],
+Cell[67163, 1524, 475, 12, 21, "Author"],
+Cell[67641, 1538, 451, 10, 21, "Author",
+ CellID->587556493]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

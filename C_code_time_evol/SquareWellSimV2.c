@@ -1,0 +1,149 @@
+// motion of a wavepacket incident on a potential
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+
+const double PI = 3.14159265358979323846264338327950;
+
+void parameters(double *x0, double *k0, double *width, double *V0, double *a,
+				double *xmin, double *xmax, double *n, double *dx, double *dx2,
+				double *dt, double *k1);
+void initial_packet(double Re[], double Im[], double x0, double k0,
+					double width, double xmin, double n, double dx, double dt);
+void initial_packet2(double Re[], double Im[], double x0, double k1,
+					double a, double xmin, double n, double dx, double dt);
+void evolve(double Re[], double Im[], double Imold[], double *t,
+			double V0, double a, double dx, double dx2, double dt,
+			double xmin, double n, double Tt, int j);
+
+int main(void)
+{
+	double magnitud=0.0;
+	int i,j;
+	double *Re;
+	double *Im;
+	double *Imold;
+	double Tt=100000.0;
+	int T=100000;
+	/*double Tt=100000.0;
+	int T=100000;*/
+	
+	double x0, k0, width, V0, a, xmin, xmax, n, dx, dx2, dt,k1;
+	parameters(&x0, &k0, &width, &V0, &a, &xmin, &xmax, &n, &dx, &dx2, &dt,&k1);
+	
+	Re=malloc(n*sizeof(double));
+	Im=malloc(n*sizeof(double));
+	Imold=malloc(n*sizeof(double));
+	
+	
+	/*initial_packet(Re, Im, x0, k0, width, xmin, n, dx, dt);*/
+	initial_packet2(Re, Im, a/2.0, k1, a, xmin, n, dx, dt);
+	
+	double t = 0.0;
+	for(j=0;j<T;j++){
+		evolve(Re, Im, Imold, &t, V0, a, dx, dx2, dt, xmin, n, Tt,j);
+	
+	}
+	for(i=0;i<n;i++){
+		magnitud=Re[i]*Re[i]+Im[i]*Im[i];
+		printf(" %f %f \n",xmin+i*dx,magnitud);
+	}
+	
+
+	return EXIT_SUCCESS;
+}
+
+void parameters(double *x0, double *k0, double *width, double *V0, double *a,
+				double *xmin, double *xmax, double *n, double *dx, double *dx2,
+				double *dt, double *k1)
+{
+	*x0 = 0;
+	*width = 1;
+	*k0 = 2;
+	*xmax = 30;
+	*xmin = -*xmax;
+	*V0 = -1000;
+	*a = 1; /* initial length of the well*/
+	*k1= PI/(*a);
+	*dx = 0.01;
+	*dx2 = (*dx)*(*dx);
+	*n = (*xmax - *xmin)/(*dx);
+	*dt = 0.0001;
+}
+
+void initial_packet(double Re[], double Im[], double x0, double k0,
+					double width, double xmin, double n, double dx, double dt)
+// initial Gaussian wavepacket
+{
+	
+	double delta2 = width*width;
+	double A = pow(2*PI*delta2, -0.25);
+	/*double b = 0.5*k0*dt;*/
+	for (int i=1; i <= n; i++) {
+		double x = xmin + (i-1)*dx;
+		double arg = 0.25*pow(x - x0, 2)/delta2;
+		double e = exp(-arg);
+		Re[i] = A*cos(k0*(x - x0))*e;
+		Im[i] = A*sin(k0*(x - x0))*e;
+		/*Im[i] = A*sin(k0*(x - x0 - 0.5*b))*e;*/
+	}
+}
+
+void initial_packet2(double Re[], double Im[], double x0, double k1,
+					double a, double xmin, double n, double dx, double dt)
+// initial sine wavepacket
+{
+
+	double A = pow(2.0/a, 0.5);
+	/*double b = 0.5*k0*dt;*/
+	for (int i=1; i <= n; i++) {
+		double x = xmin + (i-1)*dx;
+		Re[i] = 0.0;
+		Im[i] = 0.0;
+		
+	}
+	for (int i=(int)(-x0-xmin)/dx ; i <= (int)(x0-xmin)/dx; i++) {
+		double x = -x0 + (i-1)*dx;
+		Re[i] = A*sin(k1*(x - x0));
+		Im[i] = 0.0;
+
+	}
+}
+
+
+
+void evolve(double Re[], double Im[], double Imold[], double *t,
+			double V0, double a, double dx, double dx2, double dt,
+			double xmin, double n, double Tt, int j)
+{
+	double V(double x, double V0, double a, double i, double Tt);
+	for (int i=1; i < n; i++) {
+		double x = xmin + (i-1)*dx;
+		double HIm = V(x,V0,a,(double)j,Tt)*Im[i] - 0.5*(Im[i+1] - 2*Im[i] + Im[i-1])
+		/ dx2;
+		// real part defined at multiples of dt
+		Re[i] += HIm*dt;
+	}
+	for (int i=1; i < n; i++) {
+		double x = xmin + (i-1)*dx;
+		// dt/2 earlier than real part
+		Imold[i] = Im[i];
+		double HRe = V(x,V0,a,(double)j,Tt)*Re[i] - 0.5*(Re[i+1] - 2*Re[i] + Re[i-1])
+		/ dx2;
+		// dt/2 later than real part
+		Im[i] -= HRe*dt;
+	}
+	*t += dt;        // time of real part
+}
+
+double V(double x, double V0, double a, double j, double Tt)
+{
+	// step potential
+	if ( fabs(x) < a/2.0+(7.0/2.0)*a*j/Tt) {
+	/*if ( fabs(x) < a) {*/
+		return V0;
+	}else{
+		return 0;
+	}
+}
