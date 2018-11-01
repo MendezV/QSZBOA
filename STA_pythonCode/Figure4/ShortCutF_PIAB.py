@@ -22,7 +22,7 @@ import sys
 ###############################################
 
 #constants
-cosa1=1001
+cosa1=601
 points_x=cosa1
 points_t=4*int(int(points_x**2 /50)/4.0) #para quesea multiplo de 4
 DD=-20
@@ -230,7 +230,7 @@ def Shortcut(x,psiI,psiF, E_I, E_F, eta):
     up=np.array(Temp21)
 
 
-    '''  
+
     Temp=[]
     for element in rhogrid:
         Temp.append(Ninteg(x,element**2,0,x,dx))
@@ -242,11 +242,12 @@ def Shortcut(x,psiI,psiF, E_I, E_F, eta):
 
 
     up=np.array(Temp21).T
-    '''
+
 
     rhosq=rhogrid**2
     u=up/rhosq
- 
+    u[np.where( np.isnan(u) )]=0
+    '''
     plt.title("hydrodinamic velocity vs x")
     plt.ylabel("u(x,0)")
     plt.xlabel("x")
@@ -256,7 +257,7 @@ def Shortcut(x,psiI,psiF, E_I, E_F, eta):
     plt.imshow(u, interpolation='nearest', aspect='auto')
     plt.colorbar()
     plt.show()
-    
+    '''
     
 
     ## first term
@@ -267,35 +268,39 @@ def Shortcut(x,psiI,psiF, E_I, E_F, eta):
     for element4 in np.array(Temp3).T:
         Temp4.append(Ninteg(x,element4,0,x,dx))
     first=np.array(Temp4)
-
+    first[np.where( np.isnan(first) )]=0
 
     ## second term
     Temp5=[]
     for element5 in rhogrid:
         Temp5.append(Nderivat2(element5,x))
     second=0.5*np.array(Temp5)/rhogrid
+    second[np.where( np.isnan(second) )]=0
 
 
 
     ## third term
     third=-0.5*u**2
-
+    third[np.where( np.isnan(third) )]=0
 
     ##fourth term
     fourth=-np.array([Nderivat(phi(t, E_I, E_F),t) for r in x]).T
+    fourth[np.where( np.isnan(fourth) )]=0
     print(np.shape(first),np.shape(second),np.shape(third),np.shape(fourth))
     
 
 
     ##final result
     #Vres=second+fourth
-    Vres=second+fourth+third
-    
+    Vres=second+fourth+third+first
+    Vres[np.where( np.isnan(Vres) )]=0
 
     ##cutoff
-    c=50
+    c=10
+    Vres[np.where( np.isnan(Vres) )]=0
     Vres[np.where( (Vres)>c )]=c
     Vres[np.where( (Vres)<-c )]=-c
+    '''
     slices=9
     for i in range(0,slices):
     #title("Interpolating function for the state density")
@@ -307,7 +312,7 @@ def Shortcut(x,psiI,psiF, E_I, E_F, eta):
         plt.legend(bbox_to_anchor=(1.05, 1), loc=2, borderaxespad=0.)
         plt.savefig(str(i)+'.png')
         plt.show()
-    
+    '''
     for element5 in u:
         Temp5.append(Ninteg(x,element5,0,x,dx))
     phires=np.array(Temp4)
@@ -344,20 +349,53 @@ T2=-0.5*(-2.0*np.diag(np.ones(points_x))+np.diag(np.ones(points_x-1),1)+np.diag(
 values2=la.eigh(T)
 values=la.eigh(T2)
 
+'''
+#correct for general potential
+psig=values2[1].T[1] #ground state for first potental
+psie=values2[1].T[6] #excited state for first potental
+Eg=values2[0][1]   #ground state energy for first potental
+Ee=values2[0][6]   #excited state energy for first potental
 
-psig=values2[1].T[0] #ground state for first potental
-psie=values2[1].T[1] #excited state for first potental
+
+psigprime=values[1].T[1] #ground state for first potental
+psieprime=values[1].T[6] #excited state for first potental
+Egprime=values[0][1] #ground state energy for first potental
+Eeprime=values[0][6] #excited state energy for first potental
+'''
+
+'''
+##for 2-7
+
+psig=(1/np.sqrt(2))*(values2[1].T[0]-values2[1].T[1]) #excited state for first potental #ground state for first potental
+psie=values2[1].T[6] #excited state for first potental
+Eg=values2[0][1]   #ground state energy for first potental
+Ee=values2[0][6]   #excited state energy for first potental
+
+
+psigprime=(1/np.sqrt(2))*(values2[1].T[0]-values2[1].T[1]) #excited state for first potental #ground state for first potental
+psieprime=values[1].T[6] #excited state for first potental
+Egprime=values[0][1] #ground state energy for first potental
+Eeprime=values[0][6] #excited state energy for first potental
+'''
+
+
+'''
+##for 1-2
+#correction for exponentially small splittings
+psig=(1/np.sqrt(2))*(values2[1].T[0]+values2[1].T[1]) #ground state for first potental
+psie=(1/np.sqrt(2))*(values2[1].T[0]-values2[1].T[1]) #excited state for first potental
 Eg=values2[0][0]   #ground state energy for first potental
 Ee=values2[0][1]   #excited state energy for first potental
 
 
-psigprime=values[1].T[0] #ground state for first potental
-psieprime=values[1].T[1] #excited state for first potental
+psigprime=(1/np.sqrt(2))*(values[1].T[0]+values[1].T[1]) #ground state for first potental
+psieprime=(1/np.sqrt(2))*(values[1].T[0]-values[1].T[1]) #excited state for first potental
 Egprime=values[0][0] #ground state energy for first potental
 Eeprime=values[0][1] #excited state energy for first potental
+'''
 
 
-
+'''
 #interpolated states "prime"
 psi1=psig/np.sqrt( Ninteg2(x,psig**2,x0,xf,dx) )
 psi2=psie/np.sqrt( Ninteg2(x,psie**2,x0,xf,dx) )
@@ -366,11 +404,18 @@ E2=Ee
 
 #print(Ninteg(x,psi1**2,x0,[xf],dx)[0])
 #print(Ninteg(x,psi2**2,x0,[xf],dx)[0])
+'''
+##for 2-7
 
+psi1=(1/np.sqrt(W))*(np.sin(np.pi*1*(x-W)/(2*W)))
+psi2=(1/np.sqrt(W))*(np.sin(np.pi*5*(x-W)/(2*W)))
+E1=0.5*(np.pi*1/(2*W))**2
+E2=0.5*(np.pi*5/(2*W))**2
+'''
 plt.plot(x,psi1)
 plt.plot(x,psi2)
 plt.show()
-
+'''
 
 #################################################################
 
@@ -392,6 +437,7 @@ def ShortcutR(x,psiI,psiF, E_I, E_F, eta):
     def phi(t, E_I, E_F):
         return (t/tf)*(1 - (t/tf))*(( E_F + E_I)*t - E_I*tf)
     # Two subplots, unpack the axes array immediately
+    '''
     f, (ax1, ax2) = plt.subplots(1, 2, sharey=True)
     ax1.plot(x,PsiI(x))
     ax1.set_title('Initial Density',size=30)
@@ -404,8 +450,9 @@ def ShortcutR(x,psiI,psiF, E_I, E_F, eta):
     plt.tight_layout()
 
     plt.show()
+	'''
     rhogrid=np.array([rho(x,tau) for tau in t] )
-
+    '''
     f, ax1 = plt.subplots()
     ax1.plot(x/10,PsiI(x),c='b',label='t=0')
     ax1.plot(x/10,PsiF(x),c='g',label='$t=t_f$')
@@ -416,11 +463,11 @@ def ShortcutR(x,psiI,psiF, E_I, E_F, eta):
     plt.yticks(fontsize=25)
     plt.tight_layout()
     plt.show()
-
+	'''
     return  rhogrid
 
 R=ShortcutR(x,psi1,psi2, E1, E2, eta)
-
+'''
 bounds=1
 plt.imshow(R[:,bounds:-bounds], interpolation='nearest', aspect='auto')
 plt.title(r'$\rho (x,t)$',size=30)
@@ -435,7 +482,7 @@ plt.show()
 '''
 
 VRR, PhiR=Shortcut(x,psi1,psi2, E1, E2, eta)
-
+'''
 bounds=1
 plt.imshow(VRR[:,bounds:-bounds], interpolation='nearest', aspect='auto')
 plt.title('V(x,t)')
@@ -445,8 +492,9 @@ plt.xticks(np.arange(0,(np.shape(R)[1]-2*bounds+1),(np.shape(R)[1]-2*bounds)/4),
 plt.yticks(np.arange(0,np.shape(R)[0],np.shape(R)[0]/4.0),np.linspace(0,1,5))
 plt.colorbar()
 
-plt.show() 
-
+plt.show()
+'''
+'''
 plt.imshow(PhiR[:,bounds:-bounds], interpolation='nearest', aspect='auto')
 plt.title('phi (x,t)')
 plt.ylabel(r'$t/t_{f}$')
@@ -461,8 +509,8 @@ plt.plot(PhiR[-1,bounds:-bounds])
 plt.plot(PhiR[0,bounds:-bounds])
 plt.ylim([-1,7])
 plt.show()
-
-
-np.savetxt('VST.dat', VRR, delimiter=',')
 '''
+
+np.savetxt('VST27_100.dat', VRR, delimiter=',')
+
 

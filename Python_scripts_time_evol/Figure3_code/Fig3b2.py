@@ -7,15 +7,15 @@ import numpy as np
 from scipy import linalg as la
 from scipy.interpolate import UnivariateSpline
 import matplotlib.pyplot as plt
-import matplotlib as mpl
+import matplotlib
 from scipy.linalg import solve_banded
 import sys
-#import seaborn as sns
-#sns.set_style("white")
+import seaborn as sns
+sns.set_style("white")
 ###################################
 
 ###################################
-mpl.rcParams['font.size']=20
+font = {'size'   : 20 }
 
 
 
@@ -106,6 +106,7 @@ psi1=values2[1].T[enerlev]/np.sqrt(dx)
 #psi2=values2[1].T[1]/np.sqrt(dx)
 E1=values2[0][enerlev]
 #E2=values2[0][2]
+
 
 
 #######SETTING UP POTENTIAL
@@ -289,17 +290,18 @@ phiphase=np.arctan2(np.imag(np.array(psigrid)),np.real(np.array(psigrid)))
 
 #psiim= np.imag(np.array(psigrid))
 #psire= np.real(np.array(psigrid))
-'''
-plt.plot(psirho[-1]**2)
-#plt.plot(psi2**2)
-plt.show()
+enerprime=0
+if enerlev>5:
+	enerprime=enerlev-5
+else:
+	enerprime=enerlev+5
 
-plt.plot(psirho[0]**2)
-plt.plot(psi1**2)
-plt.show()
+ns=np.arange(1,11,1)
+
 '''
-print("...Final Norm:",np.sum(np.conj(psigrid[-1])*(psigrid[-1]))*dx)
-print("...Final Energy:",np.sum(np.conj(psigrid[-1])*(T@psigrid[-1]))*dx)
+plt.plot(psirho[points_t])
+plt.plot(phiphase[points_t])
+plt.show()
 
 
 fig = plt.figure()
@@ -308,45 +310,31 @@ plt.imshow(psirho, interpolation='nearest',aspect='auto')
 #plt.title(r'$\rho(x,t)$')
 plt.ylabel(r'$t/4\tau$',size=25)
 plt.xlabel(r'$x/L$',size=25)
-plt.xticks(np.arange(0,(np.shape(V)[1]+1),(np.shape(V)[1])/(int(xf))),np.arange(-int(xf),2*int(xf)+1,2)/10,fontsize=20)
-plt.yticks(np.arange(0,2*np.shape(V)[0],2*np.shape(V)[0]/4.0),np.linspace(0,2,5),fontsize=20)
+plt.xticks(np.arange(0,(np.shape(V)[1]+1),(np.shape(V)[1])/(int(xf))),np.arange(-int(xf),2*int(xf)+1,2)/10,fontsize=18)
+plt.yticks(np.arange(0,2*np.shape(V)[0],2*np.shape(V)[0]/4.0),np.linspace(0,2,5),fontsize=18)
 cb=plt.colorbar()
-plt.text(990,8500, r'$\rho (x,t)$', rotation=-90,fontsize=25)
+plt.text(600,3700, r'$|\psi|^{2}$', rotation=-90,fontsize=25)
+plt.tight_layout()
+plt.show()
+'''
+
+weights=[]
+for i in range(1,11):
+	cn=np.sum(np.array(psigrid[points_t])*np.sqrt(2.0/10.0)*np.sin(i*np.pi*(x+5)/10.0) )*dx
+	cn2=abs(np.conj(cn)*cn)
+	weights.append(cn2)
+print(np.sum(np.array(weights)))
+plt.bar(ns,weights,color='b')
+plt.xlabel('n',size=25)
+plt.ylabel(r"$P_{n \leftarrow 7}(4 \tau )$",size=25)
 plt.xticks(fontsize=20)
 plt.yticks(fontsize=20)
 plt.tight_layout()
-plt.savefig("Figure3a.png",dpi=500)
-plt.show()
-
-'''
-bounds=1
-plt.imshow(phiphase, interpolation='nearest',aspect='auto')
-plt.title(r'$\phi(x,t)$')
-plt.ylabel(r'$t/t_{f}$')
-plt.xlabel(r'$x$')
-#plt.xticks(np.arange(0,(np.shape(V)[1]-2*bounds+1),(np.shape(V)[1]-2*bounds)/(2*int(xf))),np.arange(-int(xf),2*int(xf)+1))
-#plt.yticks(np.arange(0,2*np.shape(V)[0],2*np.shape(V)[0]/4.0),np.linspace(0,1,5))
-plt.colorbar()
-plt.savefig('phi.png')
+plt.savefig("Figure_3b2.png",dpi=500)
 plt.show()
 
 
-#np.savetxt('rho'+filename, psirho, delimiter=',')
-#np.savetxt('phi'+filename, phiphase, delimiter=',')
-'''
+print("...Final Norm:",np.sum(np.conj(psigrid[-1])*(psigrid[-1]))*dx)
+print("...Final Energy:",np.sum(np.conj(psigrid[-1])*(T@psigrid[-1]))*dx)
 
-'''
-	Mat=np.matrix([[1,-1,0,0],[-1,2,-1,0],[0,-1,3,-1],[0,0,-1,4]])
-	x=np.matrix([1.0,2.0,3.0,4.0]).T
-	print(Mat,x,la.inv(Mat))
-	r=Mat@x
-	r2=la.inv(Mat)@x
-	print(r)
-	print(r2)
-	
-	mattmult=Band_mult([np.array([-1,-1,-1,0]),np.array([1,2,3,4]),np.array([0,-1,-1,-1])],x)
-	ab = np.matrix([np.array([0,-1,-1,-1]),np.array([1,2,3,4]),np.array([-1,-1,-1,0])])
-	psinew=solve_banded( (1, 1), ab, x )
-	print(mattmult,psinew,ab)
-	print(TDMASolve(np.array([0.0,-1.0,-1.0,-1.0]),np.array([1.0,2.0,3.0,4.0]), np.array([-1.0,-1.0,-1.0,0.0]), x) )
-	'''
+

@@ -2,20 +2,20 @@
 ###################################
 #PACKAGES
 ###################################
-
+import multiprocessing
 import numpy as np
 from scipy import linalg as la
 from scipy.interpolate import UnivariateSpline
 import matplotlib.pyplot as plt
-import matplotlib as mpl
+import matplotlib
 from scipy.linalg import solve_banded
 import sys
-#import seaborn as sns
-#sns.set_style("white")
+import seaborn as sns
+sns.set_style("white")
 ###################################
 
 ###################################
-mpl.rcParams['font.size']=20
+font = {'size'   : 20 }
 
 
 
@@ -25,7 +25,7 @@ mpl.rcParams['font.size']=20
 ###############################################
 
 #constants
-cosa1=801
+cosa1=1001
 points_x=cosa1
 tau=int(int(points_x**2)/200.0)
 #tau=5000
@@ -40,16 +40,14 @@ cent=-0.0
 enerlev=int(sys.argv[1])
 
 # create grid
-tf=float(sys.argv[2])
 W=W/2.0
 xf=W
 x0=-W
-dt=tf/points_t
 dx=(xf-x0)/(points_x)
 x=np.linspace(x0,xf,points_x) #debe tener un numero impar de elemntos para que sirva NInteg
-t=np.linspace(0,tf,points_t)
 
-print(dt,dx)
+
+
 #############################################
 
 #############################################
@@ -106,6 +104,7 @@ psi1=values2[1].T[enerlev]/np.sqrt(dx)
 #psi2=values2[1].T[1]/np.sqrt(dx)
 E1=values2[0][enerlev]
 #E2=values2[0][2]
+
 
 
 #######SETTING UP POTENTIAL
@@ -221,132 +220,99 @@ def TDMASolve(a, b, c, d):
 
 ###############################################################
 V=TrayV4.T
-psigrid=[]
-norm=[]
-psigrid.append(psi1)
 onesies=np.diag(np.ones(points_x))
 T=-0.5*(-2.0*np.diag(np.ones(points_x))+np.diag(np.ones(points_x-1),1)
         +np.diag(np.ones(points_x-1),-1))/(dx**2)
 
+psigrid=[]
+psigrid.append(psi1)
 
-#plt.plot(psi2**2)
-#plt.show()
 
 print("...Initial Norm:",np.sum(np.conj(psigrid[0])*(psigrid[0]))*dx)
 print("...Initial eigen-Energy:",E1)
 print("...Initial Energy:",np.sum(np.conj(psigrid[0])*(T@psigrid[0]))*dx)
 
+######SETTUP FOR TIME EVOLUTION#######
 A0p=-0.5*np.ones(points_x)/(dx**2)
 A0p[0]=0
-
 A1p=np.ones(points_x)/(dx**2)
-
-
 A2p=-0.5*np.ones(points_x)/(dx**2)
 A2p[points_x-1]=0
+#######################################
 
-
-
-for i in range(points_t):
-	psipres=psigrid[i]
-	Vc=V[i,:]
-	Hpsi=A1p+Vc
+print(".....Energy curve for initial state 1+"+sys.argv[1])
+tfs=np.logspace(5,7,30)
+E=[]
+c=0
+def worker(tf):
+	dt=tf/points_t
+	if dt>10 and c<2:
+		points_t=points_t*10
+		dt=tf/points_t
+		tau=tau*10
+		
+		TrayV4=np.zeros([points_x,points_t])
+		for j in range(tau):
 	
-	A0matt=-1j*A0p*dt
-	A1matt=1-1j*Hpsi*dt
-	A2matt=-1j*A2p*dt
-	mattmult=Band_mult([A2matt,A1matt,A0matt],psipres)
+			V0=Vsqdouble(DD*(j/float(tau-1)),0,2.5,2.5,x,-5+1.25,5-1.25)
+			TrayV4[:,j]=V0
 
-	A0mattinv=1j*A0p*dt
-	A1mattinv=1+1j*Hpsi*dt
-	A2mattinv=1j*A2p*dt
-	psinew=TDMASolve(A0mattinv, A1mattinv, A2mattinv, mattmult)
-
-	psigrid.append(psinew)
-
-
-
-for i in range(points_t,int(3*points_t/2)):
-	psipres=psigrid[i]
-	Hpsi=A1p
+		for j in range(tau):
 	
-	A0matt=-1j*A0p*dt
-	A1matt=1-1j*Hpsi*dt
-	A2matt=-1j*A2p*dt
-	mattmult=Band_mult([A2matt,A1matt,A0matt],psipres)
+			V0=Vsqdouble(DD,DD*(j/float(tau-1)),2.5,2.5,x,-5+1.25,5-1.25)
+			TrayV4[:,j+tau]=V0
+
+		for j in range(tau):
 	
-	A0mattinv=1j*A0p*dt
-	A1mattinv=1+1j*Hpsi*dt
-	A2mattinv=1j*A2p*dt
-	psinew=TDMASolve(A0mattinv, A1mattinv, A2mattinv, mattmult)
+			V0=Vsqdouble(DD*(1-j/float(tau-1)),DD,2.5,2.5,x,-5+1.25,5-1.25)
+			TrayV4[:,j+2*tau]=V0
+
+		for j in range(tau):
 	
-	psigrid.append(psinew)
+			V0=Vsqdouble(0,DD*(1-j/float(tau-1)),2.5,2.5,x,-5+1.25,5-1.25)
+			TrayV4[:,j+3*tau]=V0
+			V=TrayV4.T
+		c=c+1
+	
+	psigrid=[]
+	psipres=psi1
+
+	for i in range(points_t):
+		Vc=V[i,:]
+		Hpsi=A1p+Vc
+	
+		A0matt=-1j*A0p*dt
+		A1matt=1-1j*Hpsi*dt
+		A2matt=-1j*A2p*dt
+		mattmult=Band_mult([A2matt,A1matt,A0matt],psipres)
+
+		A0mattinv=1j*A0p*dt
+		A1mattinv=1+1j*Hpsi*dt
+		A2mattinv=1j*A2p*dt
+		psinew=TDMASolve(A0mattinv, A1mattinv, A2mattinv, mattmult)
+
+		psipres=psinew
+
+	E0=np.abs(np.sum(np.conj(np.array(psipres))*(T@np.array(psipres)))*dx)
+	E.append([E0,tf])
+	print(dt,tf,E0)
 
 
-psirho= np.sqrt(abs(   np.conj(np.array(psigrid))  *np.array(psigrid)   ))
-#phiphase=abs( 1j*np.log(   np.array(psigrid) / psirho   )  )
-phiphase=np.arctan2(np.imag(np.array(psigrid)),np.real(np.array(psigrid)))
 
-#psiim= np.imag(np.array(psigrid))
-#psire= np.real(np.array(psigrid))
-'''
-plt.plot(psirho[-1]**2)
-#plt.plot(psi2**2)
+if __name__ == '__main__':
+	jobs = []
+	for tf in tfs:
+		p = multiprocessing.Process(target=worker, args=(tf,))
+		jobs.append(p)
+		p.start()
+
+print(E)
+plt.plot(tfs,E)
+plt.scatter(tfs,E)
+plt.xscale('log')
 plt.show()
 
-plt.plot(psirho[0]**2)
-plt.plot(psi1**2)
-plt.show()
-'''
-print("...Final Norm:",np.sum(np.conj(psigrid[-1])*(psigrid[-1]))*dx)
-print("...Final Energy:",np.sum(np.conj(psigrid[-1])*(T@psigrid[-1]))*dx)
+print("...Final Norm:",np.sum(np.conj(psipres)*(psipres))*dx)
+print("...Final Energy:",np.sum(np.conj(psipres)*(T@psipres))*dx)
 
 
-fig = plt.figure()
-ax1 = fig.add_subplot()
-plt.imshow(psirho, interpolation='nearest',aspect='auto')
-#plt.title(r'$\rho(x,t)$')
-plt.ylabel(r'$t/4\tau$',size=25)
-plt.xlabel(r'$x/L$',size=25)
-plt.xticks(np.arange(0,(np.shape(V)[1]+1),(np.shape(V)[1])/(int(xf))),np.arange(-int(xf),2*int(xf)+1,2)/10,fontsize=20)
-plt.yticks(np.arange(0,2*np.shape(V)[0],2*np.shape(V)[0]/4.0),np.linspace(0,2,5),fontsize=20)
-cb=plt.colorbar()
-plt.text(990,8500, r'$\rho (x,t)$', rotation=-90,fontsize=25)
-plt.xticks(fontsize=20)
-plt.yticks(fontsize=20)
-plt.tight_layout()
-plt.savefig("Figure3a.png",dpi=500)
-plt.show()
-
-'''
-bounds=1
-plt.imshow(phiphase, interpolation='nearest',aspect='auto')
-plt.title(r'$\phi(x,t)$')
-plt.ylabel(r'$t/t_{f}$')
-plt.xlabel(r'$x$')
-#plt.xticks(np.arange(0,(np.shape(V)[1]-2*bounds+1),(np.shape(V)[1]-2*bounds)/(2*int(xf))),np.arange(-int(xf),2*int(xf)+1))
-#plt.yticks(np.arange(0,2*np.shape(V)[0],2*np.shape(V)[0]/4.0),np.linspace(0,1,5))
-plt.colorbar()
-plt.savefig('phi.png')
-plt.show()
-
-
-#np.savetxt('rho'+filename, psirho, delimiter=',')
-#np.savetxt('phi'+filename, phiphase, delimiter=',')
-'''
-
-'''
-	Mat=np.matrix([[1,-1,0,0],[-1,2,-1,0],[0,-1,3,-1],[0,0,-1,4]])
-	x=np.matrix([1.0,2.0,3.0,4.0]).T
-	print(Mat,x,la.inv(Mat))
-	r=Mat@x
-	r2=la.inv(Mat)@x
-	print(r)
-	print(r2)
-	
-	mattmult=Band_mult([np.array([-1,-1,-1,0]),np.array([1,2,3,4]),np.array([0,-1,-1,-1])],x)
-	ab = np.matrix([np.array([0,-1,-1,-1]),np.array([1,2,3,4]),np.array([-1,-1,-1,0])])
-	psinew=solve_banded( (1, 1), ab, x )
-	print(mattmult,psinew,ab)
-	print(TDMASolve(np.array([0.0,-1.0,-1.0,-1.0]),np.array([1.0,2.0,3.0,4.0]), np.array([-1.0,-1.0,-1.0,0.0]), x) )
-	'''

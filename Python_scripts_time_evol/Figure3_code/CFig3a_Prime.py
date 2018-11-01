@@ -27,7 +27,7 @@ mpl.rcParams['font.size']=20
 #constants
 cosa1=801
 points_x=cosa1
-tau=int(int(points_x**2)/200.0)
+tau=int(int(points_x**2)/20.0)
 #tau=5000
 points_t=4*tau #para que sea multiplo de 4
 DD=-20
@@ -102,10 +102,10 @@ onesies=np.diag(np.ones(points_x))
 H=-0.5*(-2.0*np.diag(np.ones(points_x))+np.diag(np.ones(points_x-1),1)+np.diag(np.ones(points_x-1),-1))/(dx**2)
 values2=la.eigh(H)
 
-psi1=values2[1].T[enerlev]/np.sqrt(dx)
-#psi2=values2[1].T[1]/np.sqrt(dx)
-E1=values2[0][enerlev]
-#E2=values2[0][2]
+#psi1=values2[1].T[enerlev]/np.sqrt(dx)
+psi1=np.sqrt(2.0/(2*W))*np.sin(np.pi*(enerlev+1)*(x+W)/(2*W))
+#E1=values2[0][enerlev]
+E1=0.5*np.pi*np.pi*(enerlev+1)*(enerlev+1)/((2*W)**2)
 
 
 #######SETTING UP POTENTIAL
@@ -234,7 +234,7 @@ T=-0.5*(-2.0*np.diag(np.ones(points_x))+np.diag(np.ones(points_x-1),1)
 
 print("...Initial Norm:",np.sum(np.conj(psigrid[0])*(psigrid[0]))*dx)
 print("...Initial eigen-Energy:",E1)
-print("...Initial Energy:",np.sum(np.conj(psigrid[0])*(T@psigrid[0]))*dx)
+print("...Initial Energy:",Ninteg(x,  np.real( np.conj(psigrid[0])*(-0.5*(Nderivat2(np.real(psigrid[0]),x)+1j*Nderivat2(np.imag(psigrid[0]),x))   ) ) ,x0,[xf],dx)   + 1j* Ninteg(x,    np.imag( np.conj(psigrid[0])*(-0.5*(Nderivat2(np.real(psigrid[0]),x)+1j*Nderivat2(np.imag(psigrid[0]),x))   ) ) ,x0,[xf],dx)      )
 
 A0p=-0.5*np.ones(points_x)/(dx**2)
 A0p[0]=0
@@ -283,14 +283,14 @@ for i in range(points_t,int(3*points_t/2)):
 	psigrid.append(psinew)
 
 
-psirho= np.sqrt(abs(   np.conj(np.array(psigrid))  *np.array(psigrid)   ))
+#psirho= np.sqrt(abs(   np.conj(np.array(psigrid))  *np.array(psigrid)   ))
 #phiphase=abs( 1j*np.log(   np.array(psigrid) / psirho   )  )
-phiphase=np.arctan2(np.imag(np.array(psigrid)),np.real(np.array(psigrid)))
+#phiphase=np.arctan2(np.imag(np.array(psigrid)),np.real(np.array(psigrid)))
 
 #psiim= np.imag(np.array(psigrid))
 #psire= np.real(np.array(psigrid))
 '''
-plt.plot(psirho[-1]**2)
+plt.plot(psirho[-1]**2)  func,
 #plt.plot(psi2**2)
 plt.show()
 
@@ -299,9 +299,9 @@ plt.plot(psi1**2)
 plt.show()
 '''
 print("...Final Norm:",np.sum(np.conj(psigrid[-1])*(psigrid[-1]))*dx)
-print("...Final Energy:",np.sum(np.conj(psigrid[-1])*(T@psigrid[-1]))*dx)
-
-
+#print("...Final Energy:",np.sum(np.conj(psigrid[-1])*(T@psigrid[-1]))*dx)
+print("...Final Energy:", Ninteg(x,  np.real( np.conj(psigrid[-1])*(-0.5*(Nderivat2(np.real(psigrid[-1]),x)+1j*Nderivat2(np.imag(psigrid[-1]),x))   ) ) ,x0,[xf],dx)   + 1j* Ninteg(x,    np.imag( np.conj(psigrid[-1])*(-0.5*(Nderivat2(np.real(psigrid[-1]),x)+1j*Nderivat2(np.imag(psigrid[-1]),x))   ) ) ,x0,[xf],dx)      )
+'''
 fig = plt.figure()
 ax1 = fig.add_subplot()
 plt.imshow(psirho, interpolation='nearest',aspect='auto')
@@ -315,9 +315,9 @@ plt.text(990,8500, r'$\rho (x,t)$', rotation=-90,fontsize=25)
 plt.xticks(fontsize=20)
 plt.yticks(fontsize=20)
 plt.tight_layout()
-plt.savefig("Figure3a.png",dpi=500)
-plt.show()
-
+plt.savefig("Figure3a2.png",dpi=500)
+#plt.show()
+'''
 '''
 bounds=1
 plt.imshow(phiphase, interpolation='nearest',aspect='auto')
