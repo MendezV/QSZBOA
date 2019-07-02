@@ -27,10 +27,10 @@ mpl.rcParams['font.size']=20
 #constants
 cosa1=801
 points_x=cosa1
-tau=int(int(points_x**2)/200.0)
+tau=int(int(points_x**2)/20.0)
 #tau=5000
 points_t=4*tau #para que sea multiplo de 4
-DD=-20
+DD=-5
 steps=int(cosa1*5)
 hbar=1.0
 m=1.0
@@ -315,7 +315,7 @@ plt.text(990,8500, r'$\rho (x,t)$', rotation=-90,fontsize=25)
 plt.xticks(fontsize=20)
 plt.yticks(fontsize=20)
 plt.tight_layout()
-plt.savefig("Figure3a.png",dpi=500)
+plt.savefig("Figure3a_STA.png",dpi=500)
 plt.show()
 
 '''
